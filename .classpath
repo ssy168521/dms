@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/aopalliance-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-beanutils-1.7.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-collections-3.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-compress-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-dbcp.jar" sourcepath="D:/OpenSourceProject/geotools-17-RC1-project.zip"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-dbutils-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-io-2.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-lang-2.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-logging-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/commons-pool.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/dom4j-1.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/ezmorph-1.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/gdal.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jackson-annotations-2.5.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jackson-core-2.5.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jackson-databind-2.5.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jaxen-1.1-beta-6.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jcifs-1.2.25.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/jdom.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/json-lib-2.2.2-jdk15.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/json-lib-2.2.3-jdk13.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/mysql-connector-java-5.1.39-bin.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/servlet-api.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/spring-aop-4.2.5.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/spring-beans-4.2.5.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/spring-context-4.2.5.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/spring-core-4.2.5.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/spring-expression-4.2.5.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/spring-web-4.2.5.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="WebRoot/WEB-INF/lib/spring-webmvc-4.2.5.RELEASE.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/GeoTools"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gt-coverage-api-17.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gt-opengis-17.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gt-referencing-17.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/mediaplayer.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gt-epsg-wkt-17.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gt-data-17.0.jar"/>
+	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/gt-geotiff-17.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_112">
+		<attributes>
+			<attribute name="owner.project.facets" value="java"/>
+		</attributes>
+		<accessrules>
+			<accessrule kind="accessible" pattern="**"/>
+		</accessrules>
+	</classpathentry>
+	<classpathentry kind="con" path="com.genuitec.runtime.library/com.genuitec.generic_6.0">
+		<attributes>
+			<attribute name="owner.project.facets" value="jst.web"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="com.genuitec.runtime.library/com.genuitec.jstl_1.2.1">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="WEB-INF/lib"/>
+			<attribute name="owner.project.facets" value="jst.web.jstl"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
+	<referencedentry kind="lib" path="D:/OpenSourceProject/geotools-17-RC1-bin/geotools-17-RC1/gt-jdbc-17-RC1.jar" sourcepath="D:/OpenSourceProject/geotools-17-RC1-project.zip"/>
+	<referencedentry kind="lib" path="D:/OpenSourceProject/geotools-17-RC1-bin/geotools-17-RC1/gt-opengis-17-RC1.jar" sourcepath="D:/OpenSourceProject/geotools-17-RC1-project.zip"/>
+	<referencedentry kind="lib" path="D:/OpenSourceProject/geotools-17-RC1-bin/geotools-17-RC1/gt-main-17-RC1.jar" sourcepath="D:/OpenSourceProject/geotools-17-RC1-bin/geotools-17-RC1/gt-main-17-RC1.jar"/>
+	<referencedentry kind="lib" path="D:/OpenSourceProject/geotools-17-RC1-bin/geotools-17-RC1/gt-data-17-RC1.jar" sourcepath="D:/OpenSourceProject/geotools-17-RC1-project.zip"/>
+</classpath>
