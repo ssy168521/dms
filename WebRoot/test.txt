@@ -1,0 +1,1 @@
+﻿[{"taskEndTime":{"date":14,"day":2,"hours":0,"minutes":9,"month":2,"seconds":32,"time":1489421372794,"timezoneOffset":-480,"year":117},"taskId":42,"taskMarkinfo":"","taskName":"数据归档","taskProgress":0,"taskStartTime":{"date":14,"day":2,"hours":0,"minutes":9,"month":2,"seconds":56,"time":1489421396958,"timezoneOffset":-480,"year":117},"taskStatus":"","taskType":"数据归档"}]

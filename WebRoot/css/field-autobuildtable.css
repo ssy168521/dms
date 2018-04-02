@@ -1,0 +1,14 @@
+@CHARSET "UTF-8";
+body{ color:#333; font-size:13px;}
+
+form .form-group:last-child{padding-bottom:0;}
+.passcode{position:absolute;right:0;bottom:0;height:32px;margin:1px;border-left:solid 1px #ddd;text-align:center;line-height:32px;border-radius:0 4px 4px 0;}
+ul,li{ list-style-type:none;}
+
+#table,#product,#panel-importshp{float:left;}
+#table,#panel-importshp{margin-left:50px;}#product{margin-left:10px;}
+#table,#product{width:270px;}
+.row-fluid{margin-top:10px;}
+label{display:block;padding-right:10px;}
+.help-block{margin-left:10px;}
+/********ͷ��******/

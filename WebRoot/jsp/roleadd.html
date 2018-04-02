@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit">
+<title></title>
+<link rel="stylesheet" href="../css/pintuer.css">
+<link rel="stylesheet" href="../css/admin.css">
+<link rel="stylesheet" href="../css/font-awesome.css">
+<script src="../lib/jquery.js"></script>
+<script src="../js/pintuer.js"></script>
+<script src="../lib/jquery-1.4.4.min.js"></script>
+</head>
+<body>
+<div class="panel admin-panel">
+  <div class="panel-head" id="add"><strong><span class="icon-pencil-square-o"></span>添加角色</strong></div>
+  <div class="body-content">
+    <form id="addroleform" method="post" class="form-x" action="">
+      <if condition="$iscid eq 1">
+        <div class="form-group">
+        <div class="label">
+          <label>角色名称：</label>
+        </div>
+        <div class="field">
+          <input type="text" class="input w50" id="rolename" name="rolename" data-validate="required:请输入角色名" />
+          <div class="tips"></div>
+        </div>
+      </div>       
+      </if>
+        <div class="form-group">
+          <div class="label">
+            <label>选择权限：</label>
+          </div>
+          <table align="left" width="" border="0" cellpadding="0" cellspacing="0">  
+	    <tr>  
+	        <td colspan="4">  
+	            <select name="unSelePrivs" id="unSelePrivs" multiple="multiple" size="10" style="width:180px;"> 
+	            </select>  
+	        </td>  
+	        <td align="center" style="width:100px;vertical-align:top;">  
+	           <br/><input type="button" id="addAll" value=" >> " style="width:50px;" /><br/><br/> 
+	            <input type="button" id="addOne" value=" > " style="width:50px;" /><br /><br/>  
+	            <input type="button" id="removeOne" value="&lt;" style="width:50px;" /><br /><br/>  
+	            <input type="button" id="removeAll" value="&lt;&lt;" style="width:50px;" /><br />  
+	        </td>  
+	        <td colspan="4">  
+	            <select name="SelePrivs" id="SelePrivs" multiple="multiple" size="10" style="width:180px;">  
+	            </select>  
+	        </td>  
+	       
+	    </tr>  
+	</table>  
+	</div>
+		<div class="form-group">
+	        <div class="label">
+	          <label>角色说明：</label>
+	        </div>
+	        <div class="field">
+	          <textarea class="input" name="roleinfo" id="roleinfo" style=" height:150px;"></textarea>
+	        </div>
+	    </div>
+	    <div class="form-group">
+        	<div class="label">
+          		<label>备注：</label>
+        	</div>
+        	<div class="field">
+          		<textarea class="input" name="note" style=" height:150px;"></textarea>
+        	</div>
+		</div>
+		<div class="clear"></div>
+		<div class="form-group">
+			<div class="label">
+			<label></label>
+        	</div>
+        	<div class="field">
+        		<!-- <button id="btnAddRole" name="btnAddRole" value="btnAddRole" class="button bg-main icon-check-square-o" type="submit"> 提交</button> -->
+        		<input class="button bg-main icon-check-square-o" style="width:100px;text-align:center" id="btnAddRole" name="btnAddRole" value="提交"/>
+        	</div>
+        </div>
+    </form>
+  </div>
+</div>
+<script type="text/javascript">
+	$(function () {
+		$.ajax({
+			url:"../servlet/PageLoad",
+			type:"POST",
+			data:eval("("+"{requestSou:\"addrolePage\"}"+")"),
+			async:false,
+			error:function(request){
+				alert("Network Error 网络异常");
+			},
+			success:function(data){
+				var objdata= eval("("+data+")");
+				var objSelect=document.getElementById("unSelePrivs");
+				for(var i=0;i<objdata.length;i++){
+					var option=new Option(objdata[i].privname,objdata[i].privid);
+					objSelect.options.add(option);
+				}
+			}
+		});	
+	});
+	
+	$("#btnAddRole").click(function(){
+		var rolename=$("input[name='rolename']").val();
+		var SelePrivs=null;
+		$("#SelePrivs option").each(function(){
+			$(this).attr("selected",true);
+			SelePrivs=$(this).attr("value");
+		});
+		
+		if(rolename==""){
+			alert("请输入用户名！！");
+			return false;
+		}
+		if(SelePrivs==null){
+			alert("请选择权限！！");
+			return false;
+		}
+		
+		$.ajax({
+			url:"../servlet/RoleManage",
+			type:"POST",
+			data:$("#addroleform").serialize(),
+			async:false,
+			error:function(request){
+				alert("Network Error 网络异常");
+			},
+			success:function(data){
+				$("#SelePrivs option").each(function(){
+					$(this).attr("selected",false);
+				});
+				
+				//alert(data);
+				if(data=="true")
+				{
+					alert("添加角色成功！");
+					document.location='./role.jsp';
+				}else{
+					alert(data);
+				}
+			}
+		});	
+	});
+	
+	//选择器
+	$(function(){  
+	    //选择一项  
+	    $("#addOne").click(function(){  
+	        $("#unSelePrivs option:selected").clone().appendTo("#SelePrivs");  
+	        $("#unSelePrivs option:selected").remove();
+	    });	  
+	    $("#addAll").click(function(){  
+	        $("#unSelePrivs option").clone().appendTo("#SelePrivs");  
+	        $("#unSelePrivs option").remove();  
+	    });	        
+	    $("#removeOne").click(function(){  
+	        $("#SelePrivs option:selected").clone().appendTo("#unSelePrivs");  
+	        $("#SelePrivs option:selected").remove();  
+	    }); 
+	    $("#removeAll").click(function(){  
+	        $("#SelePrivs option").clone().appendTo("#unSelePrivs");  
+	        $("#SelePrivs option").remove();  
+	    });	    
+	    //双击选择
+	    $("#unSelePrivs").dblclick(function(){ //绑定双击事件
+	    //获取全部的选项,删除并追加给对方
+	        $("option:selected").clone().appendTo("#SelePrivs"); //追加给对方
+	        $("#unSelePrivs option:selected").remove(); 
+	    });	 
+	   //双击移除
+	    $("#SelePrivs").dblclick(function(){
+	        $("option:selected").clone().appendTo("#unSelePrivs");
+	        $("#SelePrivs option:selected").remove(); 
+	    });
+	});  
+	
+	
+	
+	
+</script>
+
+
+</body>
+</html>

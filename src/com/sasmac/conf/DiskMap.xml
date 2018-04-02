@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+<!-- 	<mapdisk diskname="X" smbpath="smb://172.20.3.144/sharedisk">
+		<path>smb://172.20.3.144/sharedisk/</path>
+		<domain>172.20.3.144</domain>
+		<username>administrator</username>
+		<passwd>Windows2008</passwd>
+	</mapdisk> -->
+    <mapdisk diskname="X" smbpath="smb://localhost/sharedisk">
+		<path>smb://localhost/sharedisk/</path>
+		<domain>localhost</domain>
+		<username>Administrator</username>
+		<passwd>april</passwd>
+	</mapdisk> 
+	
+</root>

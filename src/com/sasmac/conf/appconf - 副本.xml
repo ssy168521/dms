@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment></comment>
+
+<entry key="TDTURL">http://172.20.3.222:6080/arcgis/services/MapWorld/MapServer/WMSServer</entry>
+<entry key="VectBaseMapURL">http://172.20.3.222:6080/arcgis/rest/services/VectorMap/MapServer</entry>
+<entry key="TDTLabelUrl">http://172.20.3.222:6080/arcgis/rest/services/VectorMap/MapServer</entry>
+</properties>

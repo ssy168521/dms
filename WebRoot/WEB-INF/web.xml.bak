@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>zy3dms</display-name>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Query</servlet-name>
+    <servlet-class>zy3dms.Query</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Mosaic</servlet-name>
+    <servlet-class>zy3dms.Mosaic</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>PNGShow</servlet-name>
+    <servlet-class>zy3dms.PNGShow</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>OverviewShow</servlet-name>
+    <servlet-class>zy3dms.OverviewShow</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DBQuery</servlet-name>
+    <servlet-class>zy3dms.DBQuery</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>PageLoad</servlet-name>
+    <servlet-class>com.sasmac.servlet.PageLoad</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UserManage</servlet-name>
+    <servlet-class>com.sasmac.servlet.UserManage</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RoleManage</servlet-name>
+    <servlet-class>com.sasmac.servlet.RoleManage</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>PrivManage</servlet-name>
+    <servlet-class>com.sasmac.servlet.PrivManage</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AutoArchive</servlet-name>
+    <servlet-class>com.web.servlet.AutoArchive</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>HandArchive</servlet-name>
+    <servlet-class>com.sasmac.servlet.HandArchive</servlet-class>
+  </servlet>
+  <servlet>
+    <description>login servlet</description>
+    <display-name>login servlet</display-name>
+    <servlet-name>Login</servlet-name>
+    <servlet-class>com.sasmac.servlet.Login</servlet-class>
+  </servlet>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <servlet-mapping>
+    <servlet-name>Query</servlet-name>
+    <url-pattern>/servlet/Query</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Mosaic</servlet-name>
+    <url-pattern>/servlet/Mosaic</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PNGShow</servlet-name>
+    <url-pattern>/servlet/PNGShow</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>OverviewShow</servlet-name>
+    <url-pattern>/servlet/OverviewShow</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>SubQuery</servlet-name>
+    <url-pattern>/servlet/SubQuery</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DBQuery</servlet-name>
+    <url-pattern>/servlet/DBQuery</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PageLoad</servlet-name>
+    <url-pattern>/servlet/PageLoad</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserManage</servlet-name>
+    <url-pattern>/servlet/UserManage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RoleManage</servlet-name>
+    <url-pattern>/servlet/RoleManage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PrivManage</servlet-name>
+    <url-pattern>/servlet/PrivManage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AutoArchive</servlet-name>
+    <url-pattern>/servlet/AutoArchive</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>HandArchive</servlet-name>
+    <url-pattern>/servlet/HandArchive</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/servlet/Login</url-pattern>
+  </servlet-mapping>
+  
+  <welcome-file-list>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+    <welcome-file>home.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>

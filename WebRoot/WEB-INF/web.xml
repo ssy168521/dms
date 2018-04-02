@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>zy3dms</display-name>
+  <context-param>  
+    <param-name>log4jConfiguration</param-name>  
+    <param-value>/WEB-INF/log4j2.xml</param-value>  
+  </context-param>  
+  
+  <listener>  
+	    <listener-class>org.apache.logging.log4j.web.Log4jServletContextListener</listener-class>  
+  </listener>  
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Query</servlet-name>
+    <servlet-class>zy3dms.Query</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Mosaic</servlet-name>
+    <servlet-class>zy3dms.Mosaic</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>PNGShow</servlet-name>
+    <servlet-class>zy3dms.PNGShow</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>OverviewShow</servlet-name>
+    <servlet-class>zy3dms.OverviewShow</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>DBQuery</servlet-name>
+    <servlet-class>zy3dms.DBQuery</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>PageLoad</servlet-name>
+    <servlet-class>com.sasmac.servlet.PageLoad</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UserManage</servlet-name>
+    <servlet-class>com.sasmac.servlet.UserManage</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RoleManage</servlet-name>
+    <servlet-class>com.sasmac.servlet.RoleManage</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>PrivManage</servlet-name>
+    <servlet-class>com.sasmac.servlet.PrivManage</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>AutoArchive</servlet-name>
+    <servlet-class>com.web.servlet.AutoArchive</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>HandArchive</servlet-name>
+    <servlet-class>com.sasmac.servlet.HandArchive</servlet-class>
+  </servlet>
+  <servlet>
+    <description>login servlet</description>
+    <display-name>login servlet</display-name>
+    <servlet-name>Login</servlet-name>
+    <servlet-class>com.sasmac.servlet.Login</servlet-class>
+  </servlet>
+  <servlet>
+    <description>login servlet</description>
+    <display-name>login servlet</display-name>
+    <servlet-name>Loadoverview</servlet-name>
+    <servlet-class>com.sasmac.servlet.Loadoverview</servlet-class>
+  </servlet>
+  <servlet>
+    <description>DownloadDataservlet</description>
+    <display-name>DownloadDataservlet</display-name>
+    <servlet-name>DownloadData</servlet-name>
+    <servlet-class>com.sasmac.servlet.DownloadData</servlet-class>
+  </servlet>
+  <servlet>
+    <description>ShowTaskInfoservlet</description>
+    <display-name>ShowTaskInfoservlet</display-name>
+    <servlet-name>ShowTaskInfoservlet</servlet-name>
+    <servlet-class>com.sasmac.servlet.ShowTaskInfoservlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>TaskHandleservlet</description>
+    <display-name>TaskHandleservlet</display-name>
+    <servlet-name>TaskHandleservlet</servlet-name>
+    <servlet-class>com.sasmac.servlet.TaskHandleservlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>TaskHandleservlet</description>
+    <display-name>TaskHandleservlet</display-name>
+    <servlet-name>ExportSHP</servlet-name>
+    <servlet-class>com.sasmac.servlet.ExportSHP</servlet-class>
+  </servlet>
+  
+  <servlet>
+    <servlet-name>tableField</servlet-name>
+    <servlet-class>com.sasmac.servlet.TableField</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>tableField</servlet-name>
+    <url-pattern>/servlet/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <description>UploadFileServlet</description>
+    <display-name>UploadFileServlet</display-name>
+    <servlet-name>UploadFileServlet</servlet-name>
+    <servlet-class>com.sasmac.servlet.UploadFileServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <description>UploadFileServlet</description>
+    <display-name>UploadFileServlet</display-name>
+    <servlet-name>ArchiveSetManage</servlet-name>
+    <servlet-class>com.sasmac.servlet.ArchiveSetManage</servlet-class>
+  </servlet>
+  <servlet>
+    <description>DataManagerServlet</description>
+    <display-name>DataManagerServlet</display-name>
+    <servlet-name>DataManager</servlet-name>
+    <servlet-class>com.sasmac.servlet.DataManager</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UploadSHP</servlet-name>
+    <servlet-class>com.sasmac.servlet.UploadSHP</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>RegionSelect</servlet-name>
+    <servlet-class>com.sasmac.servlet.RegionSelect</servlet-class>
+  </servlet>
+
+
+
+
+
+
+
+
+
+  <servlet-mapping>
+    <servlet-name>Query</servlet-name>
+    <url-pattern>/servlet/Query</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Mosaic</servlet-name>
+    <url-pattern>/servlet/Mosaic</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PNGShow</servlet-name>
+    <url-pattern>/servlet/PNGShow</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>OverviewShow</servlet-name>
+    <url-pattern>/servlet/OverviewShow</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DBQuery</servlet-name>
+    <url-pattern>/servlet/DBQuery</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PageLoad</servlet-name>
+    <url-pattern>/servlet/PageLoad</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UserManage</servlet-name>
+    <url-pattern>/servlet/UserManage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RoleManage</servlet-name>
+    <url-pattern>/servlet/RoleManage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PrivManage</servlet-name>
+    <url-pattern>/servlet/PrivManage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AutoArchive</servlet-name>
+    <url-pattern>/servlet/AutoArchive</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>HandArchive</servlet-name>
+    <url-pattern>/servlet/HandArchive</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Login</servlet-name>
+    <url-pattern>/servlet/Login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Loadoverview</servlet-name>
+    <url-pattern>/servlet/Loadoverview</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DownloadData</servlet-name>
+    <url-pattern>/servlet/DownloadData</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ShowTaskInfoservlet</servlet-name>
+    <url-pattern>/servlet/ShowTaskInfoservlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TaskHandleservlet</servlet-name>
+    <url-pattern>/servlet/TaskHandleservlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ExportSHP</servlet-name>
+    <url-pattern>/servlet/ExportSHP</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UploadFileServlet</servlet-name>
+    <url-pattern>/servlet/UploadFileServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ArchiveSetManage</servlet-name>
+    <url-pattern>/servlet/ArchiveSetManage</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>DataManager</servlet-name>
+    <url-pattern>/servlet/DataManager</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UploadSHP</servlet-name>
+    <url-pattern>/servlet/UploadSHP</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>RegionSelect</servlet-name>
+    <url-pattern>/servlet/RegionSelect</url-pattern>
+  </servlet-mapping>
+  <welcome-file-list>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+        <welcome-file>query.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <filter>
+        <filter-name>permissionFilter</filter-name>
+        <filter-class>com.sasmac.filter.PermissionFilter</filter-class>
+  </filter>
+  <filter-mapping>
+        <filter-name>permissionFilter</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+        <url-pattern>/servlet/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+        <filter-name>permissionFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+  </filter-mapping>
+    <servlet>
+        <servlet-name>CountStatisticservlet</servlet-name>
+        <servlet-class>com.sasmac.servlet.CountStatisticservlet</servlet-class>
+    </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>Loadoverview1</servlet-name>
+    <servlet-class>com.sasmac.servlet.Loadoverview1</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>UploadXML</servlet-name>
+    <servlet-class>com.sasmac.servlet.UploadXML</servlet-class>
+  </servlet>
+  <servlet>
+    <description>This is the description of my J2EE component</description>
+    <display-name>This is the display name of my J2EE component</display-name>
+    <servlet-name>FramingArchive</servlet-name>
+    <servlet-class>com.sasmac.servlet.FramingArchive</servlet-class>
+  </servlet>
+
+
+
+    <servlet-mapping>
+        <servlet-name>CountStatisticservlet</servlet-name>
+        <url-pattern>/servlet/CountStatisticservlet</url-pattern>
+    </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Loadoverview1</servlet-name>
+    <url-pattern>/servlet/Loadoverview1</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>UploadXML</servlet-name>
+    <url-pattern>/servlet/UploadXML</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>FramingArchive</servlet-name>
+    <url-pattern>/servlet/FramingArchive</url-pattern>
+  </servlet-mapping>
+</web-app>

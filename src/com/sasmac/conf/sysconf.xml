@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment></comment>
+
+
+<entry key="overviewfilepath">E:\database\overview\</entry>
+<entry key="logfilepath">E:\database\log\</entry>
+<entry key="tmpfilepath">E:\database\tmp\</entry>
+<entry key="downloadpath">E:\database\download\</entry>
+<!--0 为扫描归档， 1 为迁移归档-->
+<entry key="ArchiveMode">0</entry>
+
+</properties>

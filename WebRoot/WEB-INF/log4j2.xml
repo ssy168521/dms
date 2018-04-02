@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--设置log4j2的自身log级别为warn-->
+<configuration status="warn">
+    <properties>  
+        <property name="LOG_HOME">${env:CATALINA_HOME}</property>  
+        <property name="FILE_NAME">zy3dms</property>  
+    </properties>
+    <appenders>
+        <console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+        </console>
+
+        <RollingFile name="RollingFileInfo" fileName="${LOG_HOME}/logs/${FILE_NAME}.log"
+                     filePattern="${LOG_HOME}/logs/$${date:yyyy-MM}/zy3dms-%d{yyyy-MM-dd}-%i.log">
+            <Filters>
+                <ThresholdFilter level="INFO"/>
+            </Filters>
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="RollingFileWarn" fileName="${LOG_HOME}/logs/${FILE_NAME}.log"
+                    filePattern="${LOG_HOME}/logs/$${date:yyyy-MM}/zy3dms-%d{yyyy-MM-dd}-%i.log">
+            <Filters>
+                <ThresholdFilter level="WARN"/>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="RollingFileError" fileName="${LOG_HOME}/logs/${FILE_NAME}-err.log"
+                     filePattern="${LOG_HOME}/logs/$${date:yyyy-MM}/zy3dms-%d{yyyy-MM-dd}-%i-err.log">
+            <ThresholdFilter level="ERROR"/>
+            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+        </RollingFile>
+        <JDBC name="databaseAppender" tableName="loginfo">  
+            <ConnectionFactory class="com.sasmac.dbconnpool.ConnPoolUtil" method="getConnection" />  
+            <!--<Column name="ID" pattern=""/>-->  
+            <Column name="CLASS" pattern="%C" />  
+            <Column name="FUNCTION" pattern="%M" />  
+            <Column name="MESSAGE" pattern="%m" />  
+            <Column name="LEAVL" pattern="%level" />  
+            <Column name="TIME" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS}" />  
+        </JDBC>  
+
+    </appenders>
+
+    <loggers>
+        <Logger name="mylog" level="trace" >  
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFileInfo"/>
+            <appender-ref ref="RollingFileWarn"/>
+            <appender-ref ref="RollingFileError"/>
+        </Logger>  
+<!--         <root level="all">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFileInfo"/>
+            <appender-ref ref="RollingFileWarn"/>
+            <appender-ref ref="RollingFileError"/>
+          
+        </root> -->
+    </loggers>
+
+</configuration>

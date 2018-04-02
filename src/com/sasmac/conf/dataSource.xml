@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<comment></comment>
+<!-- 使用的JDBC驱动的完整有效的java 类名 -->
+<entry key="driverClassName">com.mysql.jdbc.Driver</entry>
+
+<!-- 传递给JDBC驱动的用于建立连接的URL-->
+<entry key="url">jdbc:mysql://127.0.0.1:3306/testdb?characterEncoding=utf-8</entry>
+
+<!-- 传递给JDBC驱动的用于建立连接的用户名 -->
+<entry key="username">root</entry>
+<!-- 传递给JDBC驱动的用于建立连接的密码 -->
+<entry key="password">123456</entry>
+<!-- 初始化连接:连接池启动时创建的初始化连接数量,1.2版本后支持 默认0 -->
+<!--   <entry key="initialSize">0</entry>   -->
+<!-- 最大活动连接:连接池在同一时间能够分配的最大活动连接的数量, 如果设置为非正数则表示不限制 默认8-->
+<entry key="maxActive">50</entry>
+<!-- 最大空闲连接:连接池中容许保持空闲状态的最大连接数量,超过的空闲连接将被释放,如果设置为负数表示不限制 默认8-->
+<entry key="maxIdle">10</entry>
+<!-- 最小空闲连接:连接池中容许保持空闲状态的最小连接数量,低于这个数量将创建新的连接,如果设置为0则不创建-->
+<!--   <entry key="minIdle">0</entry>   --> 
+<!-- 最大等待时间:当没有可用连接时,连接池等待连接被归还的最大时间(以毫秒计数),超过时间则抛出异常,如果设置为-1表示无限等待 默认无限 -->
+<!--   <entry key="maxWait">-1</entry>   -->
+<!-- SQL查询,用来验证从连接池取出的连接,在将连接返回给调用者之前.如果指定,则查询必须是一个SQL SELECT并且必须返回至少一行记录
+<entry key="validationQuery">select count(*) from dual</entry>-->
+<!-- 指明是否在从池中取出连接前进行检验,如果检验失败,则从池中去除连接并尝试取出另一个.
+注意: 设置为true后如果要生效,validationQuery参数必须设置为非空字符串 默认true-->
+<entry key="testOnBorrow">true</entry>
+<!-- 指明是否在归还到池中前进行检验
+注意: 设置为true后如果要生效,validationQuery参数必须设置为非空字符串 默认false-->
+<!--   <entry key="testOnReturn">false</entry>   -->
+<!-- 指明连接是否被空闲连接回收器(如果有)进行检验.如果检测失败,则连接将被从池中去除.
+注意: 设置为true后如果要生效,validationQuery参数必须设置为非空字符串 默认false-->
+<!--   <entry key="testWhileIdle">false</entry>   -->
+<!-- 在空闲连接回收器线程运行期间休眠的时间值,以毫秒为单位. 如果设置为非正数,则不运行空闲连接回收器线程 默认-1-->
+<!--   <entry key="timeBetweenEvictionRunsMillis">-1</entry>   -->
+<!-- 在每次空闲连接回收器线程(如果有)运行时检查的连接数量 默认3-->
+<!--   <entry key="numTestsPerEvictionRun">3</entry>   -->
+<!-- 连接在池中保持空闲而不被空闲连接回收器线程(如果有)回收的最小时间值，单位毫秒 1000 * 60 * 30 默认1800000-->
+<!--   <entry key="minEvictableIdleTimeMillis">1800000</entry>   -->
+<!-- 开启池的prepared statement 池功能 默认false-->
+<!--   <entry key="poolPreparedStatements">false</entry>   -->
+<!-- statement池能够同时分配的打开的statements的最大数量, 如果设置为0表示不限制 默认不限制-->
+<!--   <entry key="maxOpenPreparedStatements">0</entry>   -->
+<!-- statement池能够同时分配的打开的statements的最大数量, 如果设置为0表示不限制 默认不限制-->
+<!--   <entry key="maxOpenPreparedStatements">0</entry>   -->
+<!-- 控制PoolGuard是否容许获取底层连接 默认false-->
+<!--   <entry key="accessToUnderlyingConnectionAllowed">false</entry>   -->
+<!-- 标记是否删除泄露的连接,如果他们超过了removeAbandonedTimout的限制.如果设置为true, 连接被认为是被泄露并且可以被删除,如果空闲时间超过removeAbandonedTimeout. 设置为true可以为写法糟糕的没有关闭连接的程序修复数据库连接. 默认false-->
+<!--   <entry key="removeAbandoned">false</entry>   -->
+<!-- 泄露的连接可以被删除的超时值, 单位秒 默认300-->
+<!--   <entry key="removeAbandonedTimeout">300</entry>   -->
+<!-- 标记当Statement或连接被泄露时是否打印程序的stack traces日志。被泄露的Statements和连接的日志添加在每个连接打开或者生成新的Statement,因为需要生成stack trace。 默认false-->
+<!--   <entry key="logAbandoned">false</entry>   -->
+</properties>

@@ -1,0 +1,3 @@
+eclipse.preferences.version=1
+validator.Checked=WebRoot/lib/Highcharts-5.0.10/code/js/highcharts.js,WebRoot/lib/bootstrap-fileinput/js/plugins/sortable.min.js,WebRoot/lib/bootstrap-select-1.12.2/Gruntfile.js,WebRoot/lib/jquery-3.2.0.js,WebRoot/lib/Highcharts-5.0.10/code/js/highcharts.src.js,WebRoot/lib/jquery-ui-1.12.1/jquery-ui.min.js,WebRoot/lib/jquery-3.2.0.min.js,WebRoot/lib/bootstrap-switch/bootstrap-switch.js
+validator.Unchecked=

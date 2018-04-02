@@ -1,0 +1,20 @@
+﻿<visiter>  
+    <area areaid="shenzhen">  
+        <areaname>shenzhen</areaname>  
+        <user userid="001">             
+            <name>shenzhenNBA</name>  
+            <sex>man</sex>  
+        </user>  
+    </area>  
+    <area areaid="shanghai">  
+        <areaname>shenzhen</areaname>  
+        <user userid="002">             
+            <name>xiaoming</name>  
+            <sex>woman</sex>  
+        </user>  
+        <user userid="003">             
+            <name>zhangsan</name>  
+            <sex>man</sex>  
+        </user>  
+    </area>  
+</visiter>  

@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Catalogs>
+	<catalog1 id='1'>
+		<value>ZY3-1卫星影像数据</value>
+		<table>TB_ZY301_</table>
+		<catalog2 id='2'>
+			<value>ZY3-1传感器校正产品</value>
+			<table>TB_ZY301_SC_</table>
+			<catalog3 id='3'>
+				<value>ZY3-1前视全色</value>
+				<table>TB_ZY301_SC_FWD</table>
+			</catalog3>
+			<catalog3 id='4'>
+				<value>ZY3-1正视全色</value>
+				<table>TB_ZY301_SC_NAD</table>
+			</catalog3>
+			<catalog3 id='5'>
+				<value>ZY3-1后视全色</value>
+				<table>TB_ZY301_SC_BWD</table>
+			</catalog3>
+			<catalog3 id='6'>
+				<value>ZY3-1多光谱</value>
+				<table>TB_ZY301_SC_MUX</table>
+			</catalog3>
+		</catalog2>		
+	</catalog1>
+	<catalog1 id='7'>
+		<value>ZY3-2卫星影像数据</value>
+		<table>TB_ZY302_</table>
+		<catalog2 id='8'>
+			<value>ZY3-2传感器校正产品</value>
+			<table>TB_ZY302_SC_</table>
+			<catalog3 id='9'>
+				<value>ZY3-2前视全色</value>
+				<table>TB_ZY302_SC_FWD</table>
+			</catalog3>
+			<catalog3 id='10'>
+				<value>ZY3-2正视全色</value>
+				<table>TB_ZY302_SC_NAD</table>
+			</catalog3>
+			<catalog3 id='11'>
+				<value>ZY3-2后视全色</value>
+				<table>TB_ZY302_SC_BWD</table>
+			</catalog3>
+			<catalog3 id='12'>
+				<value>ZY3-2多光谱</value>
+				<table>TB_ZY302_SC_MUX</table>
+			</catalog3>
+		</catalog2>		
+	</catalog1>
+	<catalog1 id='13'>
+		<value>GF1卫星影像数据</value>
+		<table>TB_GF1_</table>
+		<catalog2 id='14'>
+			<value>GF1传感器校正产品</value>
+			<table>TB_GF1_LEVEL1_</table>
+			<catalog3 id='15'>
+				<value>GF1 PMS1</value>
+				<table>TB_GF1_LEVEL1_PMS1</table>
+			</catalog3>
+			<catalog3 id='16'>
+				<value>GF1 PMS2</value>
+				<table>TB_GF1_LEVEL1_PMS2</table>
+			</catalog3>
+		</catalog2>		
+	</catalog1>
+	<catalog1 id='17'>
+		<value>GF2卫星影像数据</value>
+		<table>TB_GF2_</table>
+		<catalog2 id='18'>
+			<value>GF2传感器校正产品</value>
+			<table>TB_GF2_LEVEL1_</table>
+			<catalog3 id='19'>
+				<value>GF2 PMS1</value>
+				<table>TB_GF2_LEVEL1_PMS1</table>
+			</catalog3>
+			<catalog3 id='20'>
+				<value>GF2 PMS2</value>
+				<table>TB_GF2_LEVEL1_PMS2</table>
+			</catalog3>
+		</catalog2>
+		<catalog2 id='21'>
+			<value>其他卫星影像数据</value>
+			<table>TB_OTHER_SC_ALL</table>
+		</catalog2>	
+	</catalog1>	
+</Catalogs>

@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Catalogs>
+	<catalog1 value='资三原始数据产品'>
+		<catalog2 value='原始条带数据'>
+			<catalog3 value='接收原始条带数据'>
+				<catalog4>
+					<value>ZY3-1前视原始数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1正视原始数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1后视原始数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1多光谱原始数据</value>
+				</catalog4>
+			</catalog3>
+			<catalog3 value='原始辅助数据'>
+				<catalog4>
+					<value>ZY3-1星图数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1星敏数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1GPS数据</value>
+				</catalog4>
+			</catalog3>
+		</catalog2>
+		<catalog2 value='自生产编目数据'>
+			<catalog3 value='自生产编目条带数据'>
+				<catalog4>
+					<value>ZY3-1前视编目条带数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1正视编目条带数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1后视编目条带数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1多光谱编目条带数据</value>
+				</catalog4>
+			</catalog3>
+			<catalog3 value='自生产编目景数据'>
+				<catalog4>
+					<value>ZY3-1前视编目景数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1正视编目景数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1后视编目景数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1多光谱编目景数据</value>
+				</catalog4>
+			</catalog3>
+		</catalog2>
+
+	</catalog1>
+	
+	
+
+</Catalogs>

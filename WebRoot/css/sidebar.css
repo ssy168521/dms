@@ -1,0 +1,21 @@
+@CHARSET "UTF-8";
+*{margin:0;padding:0;list-style-type:none;}
+a,img{border:0;}
+body{background:none;}   //控制着网页的背景色
+body{font:12px/180% Arial, Helvetica, sans-serif, "新宋体";}
+
+#First{position: relative;height:30px;width:325px;float:left;z-index: 0;border:0px solid #99bbe8;background-color:white;}
+#Second{position: absolute;top:30px;right:0px;height:30px;width:325px;z-index: 0;border:0px solid #99bbe8;background-color:white;}  
+#Final{position: absolute;bottom:0px;right:0px;height:20px;width:325px;z-index: 0;border:0px solid #99bbe8;background-color:white;} 
+.Row{display:inline;float:left;margin:0px;} 
+       
+.rides-cs{background:white;position:fixed;top:115px;bottom:32px;right:0px;z-index:999;overflow-y:auto;}
+.rides-cs .floatL{width:0px;float:left;z-index:10;position:fixed;}
+.rides-cs .floatL a{font-size:0;text-indent:-999em;display:block;}
+
+/* .rides-cs .floatR{top:113px;bottom:30px;right:0px;overflow:hidden;display:none;width:auto;height:auto;border:1px solid #99bbe8;background-color:white;} */
+/* .rides-cs .floatR{width:300px;float:left;padding:12px;overflow:hidden;display:none;border:1px solid #99bbe8;} */
+.rides-cs .floatR .cn{background:#F7F7F7;}
+.rides-cs .btnOpen,.rides-cs .btnCtn{position:relative;z-index:9;top:220px;left:-10px;background-image: url(../img/icon/btngroup.png);display:block;width:0px;height:64px;overflow:auto;padding:8px;}
+.rides-cs .btnOpen{background-position:12px 0px;}
+.rides-cs .btnCtn{background-position:-22px 0px;}     

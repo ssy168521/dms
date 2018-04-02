@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Catalogs>
+	<catalog1 value='资三原始数据产品' id=0 pid=-1>
+		<catalog2 value='原始条带数据' id=1 pid=0>
+			<catalog3 value='接收原始条带数据' id=2 pid=1>
+				<catalog4 value='ZY3-1前视全色原始数据' id=3 pid=2>
+					<value>ZY3-1前视全色原始数据</value>
+					<table>TB_ZY301_YSTD_FWD</table>
+				</catalog4>
+				<catalog4 value='ZY3-1前视全色原始数据' id=4 pid=2>
+					<value>ZY3-1正视全色原始数据</value>
+					<table>TB_ZY301_YSTD_NAD</table>
+				</catalog4>
+				<catalog4 value='ZY3-1后视全色原始数据' id=5 pid=2>
+					<value>ZY3-1后视全色原始数据</value>
+					<table>TB_ZY301_YSTD_BWD</table>
+				</catalog4>
+				<catalog4 value='ZY3-1多光谱原始数据' id=6 pid=2>
+					<value>ZY3-1多光谱原始数据</value>
+					<table>TB_ZY301_YSTD_MUX</table>
+				</catalog4>
+			</catalog3>
+			<catalog3 value='原始辅助数据' id=7 pid=1>
+				<catalog4 value='ZY3-1星图数据' id=8 pid=7>
+					<value>ZY3-1星图数据</value>
+					<table>TB_ZY301_YSFZ_XT</table>
+				</catalog4>
+				<catalog4 value='ZY3-1星图数据' id=9 pid=7>
+					<value>ZY3-1星敏数据</value>
+					<table>TB_ZY301_YSFZ_XM</table>
+				</catalog4>
+				<catalog4 value='ZY3-1星图数据' id=10 pid=7>
+					<value>ZY3-1GPS数据</value>
+					<table>TB_ZY301_YSFZ_GPS</table>
+				</catalog4>
+			</catalog3>
+			<catalog3 value='自生产编目数据' id=11 pid=1>				
+			</catalog3>
+		</catalog2>
+		<catalog2 value='自生产编目数据' id=1 pid=0>
+			<catalog3 value='自生产编目条带数据' id=1 pid=0>
+				<catalog4>
+					<value>ZY3-1前视编目条带数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1正视编目条带数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1后视编目条带数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1多光谱编目条带数据</value>
+				</catalog4>
+			</catalog3>
+			<catalog3 value='自生产编目景数据'>
+				<catalog4>
+					<value>ZY3-1前视编目景数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1正视编目景数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1后视编目景数据</value>
+				</catalog4>
+				<catalog4>
+					<value>ZY3-1多光谱编目景数据</value>
+				</catalog4>
+			</catalog3>
+		</catalog2>
+
+	</catalog1>
+	
+	
+
+</Catalogs>

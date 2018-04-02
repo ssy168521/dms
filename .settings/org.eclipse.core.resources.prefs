@@ -1,0 +1,15 @@
+eclipse.preferences.version=1
+encoding//WebRoot/jsp/TaskInfo.jsp=UTF-8
+encoding//WebRoot/lib/dtree/dtree.js=UTF-8
+encoding//src/com/sasmac/common/ThreadManager.java=UTF-8
+encoding//src/com/sasmac/database/ImportMeta2Database.java=UTF-8
+encoding//src/com/web/action/ConfigureAction.java=UTF-8
+encoding//src/com/web/common/Constants.java=UTF-8
+encoding//src/com/web/thread/MyArchiveThread.java=UTF-8
+encoding//src/com/web/thread/MyHmArchiveThread.java=UTF-8
+encoding//src/com/web/thread/MyMianThread.java=UTF-8
+encoding//src/com/web/thread/SfiCopyArchiveThread.java=UTF-8
+encoding//src/com/web/util/DbUtils.java=UTF-8
+encoding//src/com/web/util/FileUtil.java=UTF-8
+encoding//src/com/web/util/TarUtils.java=UTF-8
+encoding//src/renamefile.java=UTF-8
