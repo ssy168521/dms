@@ -364,7 +364,8 @@ public class Layer2GeoJSON {
 			Filter filter2 = null;
 
 			try {
-				filter2 = CQL.toFilter(WhereClause);// 过滤器（云量>=0且<=20）
+				if(!WhereClause.isEmpty())
+				  filter2 = CQL.toFilter(WhereClause);// 过滤器（云量>=0且<=20）
 			} catch (CQLException e1) {
 
 				e1.printStackTrace();
@@ -386,9 +387,7 @@ public class Layer2GeoJSON {
 
 			} else if (LayerName.compareToIgnoreCase("TB_DOMSCENE_PRODUCT") == 0) {//分景
 				String[] fields1 = { geometryAttributeName, "dataid",
-						"FileName", "FilePath", "scenePath", "sceneRow",
-						"orbitID", "satellite", "sensor", "acquisitionTime",
-						"ArchiveTime", "productLevel", "cloudPercent" };
+						"FileName", "FilePath","satellite"};
 				fields = fields1;
 			} else if (LayerName.compareToIgnoreCase("TB_SC_PRODUCT") == 0) {//SC产品
 				String[] fields1 = { geometryAttributeName, "dataid",

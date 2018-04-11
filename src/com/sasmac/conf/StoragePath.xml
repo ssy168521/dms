@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!-- 说明：文件层级最多7级，例如 ;D:\database\标准分幅\J46\-->
 <StoragePath>
-    <diskname>E:</diskname><!-- 盘符 -->
+    <diskname>C:</diskname><!-- 盘符 -->
     <Levelone>database</Levelone><!-- 归档存放文件夹 -->
     <Leveltwo>标准分幅</Leveltwo> 
     <Levelthree></Levelthree>

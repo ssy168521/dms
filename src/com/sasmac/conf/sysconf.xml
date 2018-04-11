@@ -4,10 +4,10 @@
 <comment></comment>
 
 
-<entry key="overviewfilepath">E:\database\overview\</entry>
-<entry key="logfilepath">E:\database\log\</entry>
-<entry key="tmpfilepath">E:\database\tmp\</entry>
-<entry key="downloadpath">E:\database\download\</entry>
+<entry key="overviewfilepath">C:\database\overview\</entry>
+<entry key="logfilepath">C:\database\log\</entry>
+<entry key="tmpfilepath">C:\database\tmp\</entry>
+<entry key="downloadpath">C:\database\download\</entry>
 <!--0 为扫描归档， 1 为迁移归档-->
 <entry key="ArchiveMode">0</entry>
 

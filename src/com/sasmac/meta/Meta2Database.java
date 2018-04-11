@@ -256,43 +256,36 @@ public class Meta2Database {
         //split切分字符串，循环求出第三个各字符串即为日期
         String[] ss=filename.split("_");
         String acquisitionTime=ss[2];        //产品制作时间
-    	int dataid = 0;
+    	long dataid = System.currentTimeMillis();
 
 		conn = ConnPoolUtil.getConnection();
 		try {
 			stmt = conn.createStatement();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        //判断dataid是否已存在，已有则另加一
-        if(satellite.contains("GF")){
-        	int dataid1 = Integer.parseInt(ss[5].substring(6,13));
-        	//判断dataid是否重复
-    		String sql = "SELECT *FROM "+ tablename +" WHERE dataid =\""+dataid1+"\";";
-    		ResultSet result = null;
-			try {
+/*        //判断dataid是否已存在，已有则另加一
+
+	        if(satellite.contains("GF")){
+	        	long dataid1 = System.currentTimeMillis();
+	        	//int dataid1 = Integer.parseInt(ss[5].substring(6,13));
+	        	//判断dataid是否重复
+	    		String sql = "SELECT *FROM "+ tablename +" WHERE dataid =\""+dataid1+"\";";
+	    		ResultSet result = null;
 				result = stmt.executeQuery(sql);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    		try {
 				if(result.next()){
 					dataid=Integer.parseInt(dataid1+"11");
 				} else {
 					dataid=dataid1;
 				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        }else if(satellite.contains("zy")){
-        	dataid = Integer.parseInt(ss[8]);
-        }else {
-        	myLogger.info(" 错误：dataid未能正确提取！");
+
+	        }else if(satellite.contains("zy")){
+	        	dataid = Integer.parseInt(ss[8]);
+	        }else {
+	        	myLogger.info(" 错误：dataid未能正确提取！");
+			}*/
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-            
+		
         //当前系统时间就是归档时间
 		 SimpleDateFormat dft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 		 String archiveTime = dft.format(new Date());  // new Date()为获取当前系统时间

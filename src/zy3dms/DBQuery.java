@@ -16,6 +16,8 @@ import com.sasmac.dbconnpool.ConnPoolUtil;
 import com.sasmac.util.Layer2GeoJSON;
 import com.vividsolutions.jts.io.ParseException;
 
+import com.sasmac.common.DataModel;
+
 public class DBQuery extends HttpServlet {
 
 	/**
@@ -64,32 +66,7 @@ public class DBQuery extends HttpServlet {
 
 	}
 
-	// 更新所有角色列表
-	public String GetProductTabName(String strProductType) {
-
-		java.sql.Connection conn = ConnPoolUtil.getConnection();
-		if (conn == null)
-			return "";
-
-		String sql = "select tablename from  tb_metamanager where ProductType='"
-				+ strProductType + "'";
-		String TableName = "";
-		try {
-			PreparedStatement psmt = conn.prepareStatement(sql);//
-			ResultSet rs = psmt.executeQuery();
-			while (rs.next()) {
-				TableName = rs.getString(1);
-			}
-			psmt.close();
-			rs.close();
-
-			ConnPoolUtil.close(conn, null, null);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return TableName;
-	}
+	
 
 	/**
 	 * The doPost method of the servlet. <br>
@@ -125,7 +102,7 @@ public class DBQuery extends HttpServlet {
 		if (ProductType == null) {
 			return;
 		}
-		String tbname = GetProductTabName(ProductType);
+		String tbname = DataModel.GetProductTabName(ProductType);
 
 		if (tbname == "")
 			return;
@@ -135,8 +112,12 @@ public class DBQuery extends HttpServlet {
 		if (ProductType.compareToIgnoreCase("分幅DOM") == 0) {
 			strWherClause = BuildSQL.querySQLbyDOMScene(request);
 
-		} else {
-			strWherClause = BuildSQL.querySQLbySC(request);
+		} else if (ProductType.compareToIgnoreCase("分景DOM") == 0) {
+			strWherClause = BuildSQL.querySQLbySC(request,true);
+		}
+		else 
+		{
+			strWherClause = BuildSQL.querySQLbySC(request,false);
 		}
 
 		String geojsonstr = "";

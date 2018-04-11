@@ -318,12 +318,6 @@ String username="";
 						
 			$("#testsub").click(function(){
 			    bIsLoadoverview=true;
-			   var tablename= $("#tbname").val();
-			   if(tablename=="")
-			   {
-			      alert("请选择要查询的影像产品类型");
-			      return;
-			   }
 				var layid='quyresulayer';
 				//clearMouse();				
 				if(geoJsonLayer!=null){
@@ -352,7 +346,7 @@ String username="";
 				else
 				{
 				 //  dataobj=$("#qureyform").serialize();
-				 dataobj= JSON.stringify($("#qureyform").serializeObject());
+				 dataobj= JSON.stringify($("#qureyform").serialize());
 				}
 				
 				 

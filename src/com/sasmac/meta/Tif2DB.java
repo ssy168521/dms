@@ -24,13 +24,13 @@ public class Tif2DB {
 	private String wktString;//  范围适量
 	private String acquisitionTime;// 获得点
 	private String archiveTime;  //  归档时间点
-	private int dataid;       //数据id，唯一标识
+	private long dataid;       //数据id，唯一标识
 	private int orbitID;      // 轨道ID号
 	private int scenePath;    //场景轨道
 	private int sceneRow;     //场景行
 	private String sensor;    //传感器
 	private int productQuality;   //产品质量
-	private int productid;        //产品id
+	private long productid;        //产品id
 	private int productLevel;     //产品级别
 	
 	public String getFileName() {
@@ -118,11 +118,11 @@ public class Tif2DB {
 	public void setDataType(String dataType) {
 		DataType = dataType;
 	}
-	public int getDataid() {
+	public long getDataid() {
 		return dataid;
 	}
-	public void setDataid(int dataid) {
-		this.dataid = dataid;
+	public void setDataid(long dataid2) {
+		this.dataid = dataid2;
 	}
 	public int getOrbitID() {
 		return orbitID;
@@ -154,11 +154,11 @@ public class Tif2DB {
 	public void setProductQuality(int productQuality) {
 		this.productQuality = productQuality;
 	}
-	public int getProductid() {
+	public long getProductid() {
 		return productid;
 	}
-	public void setProductid(int productid) {
-		this.productid = productid;
+	public void setProductid(long dataid2) {
+		this.productid = dataid2;
 	}
 	public int getProductLevel() {
 		return productLevel;

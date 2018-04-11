@@ -8,6 +8,7 @@ import java.util.Date;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.sasmac.common.DataModel;
 import com.sasmac.jni.ImageProduce;
 import com.sasmac.meta.Meta2Database;
 import com.web.common.Constants;
@@ -171,7 +172,8 @@ public class SviScanArchiveThread extends BaseThread implements Runnable {
 					continue;
 				}
 				//表名
-				String tablename = "tb_domscene_product";      //所有标准分幅产品信息都存于此表
+				String tablename = DataModel.GetProductTabName("分景DOM");
+				     //所有标准分幅产品信息都存于此表
                // String productName = "分景产品";  //产品名字
 				if (service.isFileArchive(conn, tablename, filename)) {
 					myLogger.info("file had exist database:" + filename);

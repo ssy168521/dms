@@ -108,7 +108,7 @@ public class BuildSQL {
 		return strSQL;
 	}
 
-	public static String querySQLbySC(HttpServletRequest request) {
+	public static String querySQLbySC(HttpServletRequest request,boolean bisDOM) {
 		String[] zy301sensor = request.getParameterValues("zy301sensor");
 		String[] zy302sensor = request.getParameterValues("zy302sensor");
 		String[] gf1sensor = request.getParameterValues("gf1sensor");
@@ -138,14 +138,19 @@ public class BuildSQL {
 
 		String strSQL = "";
 
-		if (cloud1 != "" && cloud1 != null) {
-			strSQL += "cloudPercent>=" + cloud1;
-			strSQL += " and ";
+		if(!bisDOM)
+		{
+			if (cloud1 != "" && cloud1 != null) {
+				strSQL += "cloudPercent>=" + cloud1;
+				strSQL += " and ";
+			}	
+			if (cloud2 != "" && cloud2 != null) {
+				strSQL += "cloudPercent<=" + cloud2;
+				strSQL += " and ";
+			}
 		}
-		if (cloud2 != "" && cloud2 != null) {
-			strSQL += "cloudPercent<=" + cloud2;
-			strSQL += " and ";
-		}
+		
+	
 		if (orbitid != "" && orbitid != null) {
 			strSQL += "orbitID=" + orbitid;
 			strSQL += " and ";
@@ -233,18 +238,22 @@ public class BuildSQL {
 
 		int nstrSQLlength = strSQL.length();
 
-		// 判断最后一个单词是否为where
-		if (strSQL.indexOf("where") >= nstrSQLlength - 6) {
-			strSQL = strSQL.substring(0, strSQL.lastIndexOf("where") - 1);
+		if(nstrSQLlength>6)
+		{
+			// 判断最后一个单词是否为where
+			if (strSQL.indexOf("where") >= nstrSQLlength - 6) {
+				strSQL = strSQL.substring(0, strSQL.lastIndexOf("where") - 1);
+			}
+			// 判断最后一个单词是否为and
+			if (strSQL.lastIndexOf("and") > nstrSQLlength - 5) {
+				strSQL = strSQL.substring(0, strSQL.lastIndexOf("and") - 1);
+			}
+			// 判断最后一个单词是否为or
+			if (strSQL.lastIndexOf("or") > nstrSQLlength - 4) {
+				strSQL = strSQL.substring(0, strSQL.lastIndexOf("or") - 1);
+			}			
 		}
-		// 判断最后一个单词是否为and
-		if (strSQL.lastIndexOf("and") > nstrSQLlength - 5) {
-			strSQL = strSQL.substring(0, strSQL.lastIndexOf("and") - 1);
-		}
-		// 判断最后一个单词是否为or
-		if (strSQL.lastIndexOf("or") > nstrSQLlength - 4) {
-			strSQL = strSQL.substring(0, strSQL.lastIndexOf("or") - 1);
-		}
+
 		return strSQL;
 
 	}
