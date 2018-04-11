@@ -22,6 +22,7 @@ String username="";
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
     <base href="<%=basePath%>">
     
     <title>可视化查询</title>
@@ -329,11 +330,37 @@ String username="";
 					geoJsonLayer.clear();
 					map.removeLayer(geoJsonLayer);
 				}
+				
+				var activeTab=$("#ProductType").val();
+				var dataobj="";
+				if(activeTab=="分幅DOM")
+				{
+			    	dataobj={
+					   fenfuid:$("#fenfuid").val(),
+					   wktPoly:$("#wktPoly").val(),
+					   ProductType:$("#ProductType").val()
+				   }
+				   /*  dataobj= JSON.stringify($("#qureyform-DOMFRAME").serializeObject());
+			 	   dataobj+="wktPoly:'";
+			 	   dataobj+=$("#wktPoly").val();
+			 	   dataobj+="'";
+			 	   dataobj+="ProductType:'";
+			 	   dataobj+=$("#ProductType").val();
+			 	   dataobj+="'"; */
+			 	   
+				}
+				else
+				{
+				 //  dataobj=$("#qureyform").serialize();
+				 dataobj= JSON.stringify($("#qureyform").serializeObject());
+				}
+				
+				 
 				$.ajax({
 					url:"servlet/DBQuery",
 					type:"POST",					
-					data:$("#qureyform").serialize(),
-					//async:false,
+					data:dataobj,
+					async:false,
 					error:function(request){
 						alert("网络异常");
 					},
@@ -341,8 +368,7 @@ String username="";
 					   if(data!="")		
 					   {
 						   	var obj= eval("("+data+")");
-							/* if() */
-							
+														
 							geoJsonLayer = new GeoJsonLayer({
 								data : obj,
 								id :layid
@@ -352,12 +378,28 @@ String username="";
 								map.setExtent(e.target.extent.expand(1.2));
 							});
 							map.addLayer(geoJsonLayer,15);
+							
+							if($("#ProductType").val()=="分幅DOM")
+							{
+							   setQuerylistbyFrameDOM(obj,layid);
+							}
+							else
+							{
+							   setQuylist(obj,layid);
+							}
 												
-						    setQuylist(obj,layid);
+						    
 					   }
 					   else
 					   {
-					      setQuylist("",layid);
+					      if($("#ProductType").val()=="分幅DOM")
+							{
+							   setQuerylistbyFrameDOM("",layid);
+							}
+							else
+							{
+							   setQuylist("",layid);
+							}
 					   }	
 					   
 					   $('#navtabid a[href="#panel-quyresult"]').tab('show');
@@ -365,7 +407,86 @@ String username="";
 					}
 				});
 			});
-		
+			function setQuerylistbyFrameDOM(data,layid)
+			{			
+				var features=data.features;
+				var obj=new Array();
+				for(i in features){
+					obj.push(features[i].properties);
+				}
+				if($('#resulist').bootstrapTable!=null)
+					$('#resulist').bootstrapTable('destroy');		
+				$('#resulist').bootstrapTable('removeAll');
+				$('#resulist').bootstrapTable({
+					method: 'get',
+					cache: false,
+					height: '600',
+					toolbar: '#toolbar',
+					striped: true,
+					sidePagination:"client",
+					showPaginationSwitch:true,
+					pagination: true,
+					pageSize: 20,
+					pageList: [20, 50, 100, 500, 1000],
+					maintainSelected:true,
+					//search: true,
+					showColumns: true,
+					showRefresh: true,
+					//showToggle: true,
+					showExport: true,
+					//group-by:true,
+					//group-by-field:["orbitID","sceneRow"],
+					//clickToSelect: true,
+					columns: [{field:"select",title:"全选",checkbox:true,width:50,align:"center",valign:"middle",sortable:"true"},
+					          {field:"action",title:"操作",align:"center",valign:"middle",formatter:actionformatter,events: {
+							      'click .showoverviewclass': function (e, value, row, index) {
+							       showove(e, value,row,index);
+							      },
+							      'click .matchsearchclass': function (e, value, row, index) {
+							        imageMatch(e, value,row,index);
+							      }
+						      } },
+						{field:"dataid",title:"Id",align:"center",valign:"middle",sortable:"true"},
+						{field:"FileName",title:"文件名",align:"center",valign:"middle",sortable:"true"},					
+						{field:"FilePath",title:"文件路径",align:"center",valign:"middle",sortable:"true"},					
+					],
+					data:obj,
+					rowStyle: function (row, index) {
+			                //这里有5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
+			                var strclass = "";
+			                /* if (row.ORDER_STATUS == "待排产") {
+			                    strclass = 'success';//还有一个active
+			                }
+			                else if (row.ORDER_STATUS == "已删除") {
+			                    strclass = 'danger';
+			                }
+			                else {
+			                    return {};
+			                } */
+			                return { classes: strclass }
+			            },
+		            formatNoMatches: function(){
+		            	return '无符合条件的记录';
+		            },		            
+		            onDblClickRow:function (row){
+		            	//行点击事件
+		            	lightClick(layid,row.dataid);
+		            },
+		            onCheck:function(row){
+		            	graphSelect(row.dataid);
+		            },
+		            onUncheck:function(row){
+		            	graphUnselect(row.dataid);
+		            }  
+				});
+								
+				$("#resuCount").text(obj.length);
+				$("#resuinfo").css({display:"block"});
+				$("#toolbar").css({display:"block"});	
+				$(window).resize(function () {
+					$('#resulist').bootstrapTable('resetView');
+				});	
+			}	
 			function setQuylist(data,layid){			
 				var features=data.features;
 				var obj=new Array();
@@ -1083,7 +1204,7 @@ String username="";
 								</li>
 							</ul>
 							<div class="tab-content">
-								<div class="tab-pane active" id="panel-region" height=30%>
+								<div class="tab-pane active" id="panel-region">
 									<table width=100% height=40% style="padding-top:15px">
 										<tr height=30%>
 											<td width=40% style="text-align:right;padding-right:15px">
@@ -1111,7 +1232,7 @@ String username="";
 										</tr>
 									</table>
 								</div>
-								<div class="tab-pane" id="panel-importshp" height=40%>
+								<div class="tab-pane" id="panel-importshp" style="height:40%">
 									<!-- <input id="uploadSHPfile" type="file" size="45" accept="application/zip" name="uploadSHPfile" class="btn btn-default btn-sm">
 									<button class="btn btn-default" onclick="ajaxFileUpload()">上传</button> -->
 									<div style="text-align:center; padding-top:15px">
@@ -1145,11 +1266,10 @@ String username="";
 											纬度:<input type="text" id="PntY2" class="InputXYbox" style="text-align:center;width:25%;" onkeyup="checkNum(this,-90,90);"/>
 										</div>
 								   </div>
-<!-- 								   <div class="form-group" style="text-align:center;">
+      							    <div class="form-group" style="text-align:center;">
 											<button id="btnClearXY" class="btn btn-default btn-sm col-lg-6" style="margin-left:150;margin-top:15;width:80px;">清  空</button>
 											<button id="btnInputXY" class="btn btn-default btn-sm col-lg-6" style="margin-left:100;margin-top:15;width:80px;">确 定</button>
-	
-									</div> -->
+									</div> 
 								</div>
 								
 								<div class="tab-pane" id="panel-importTxt" height=40%>
@@ -1178,25 +1298,25 @@ String username="";
 								</div>
 							</div>		
 						</div>		
-						<div class="tabbable" id="tabs-237916" height=60%>
-							<ul id="navtabid" class="nav nav-tabs">
+						<div class="tabbable" id="tabs-237916" style="height:60%">
+							<ul id="navtabid" class="nav nav-tabs" >
 								<li style="width:25%">
-									 <a href="#panel-quyterm" data-toggle="tab">SC产品</a>
+									 <a href="#panel-quyterm" data-toggle="tab" >SC产品</a>
 								</li>
 								<li  style="width:25%">
-									 <a href="#panel-quyterm" data-toggle="tab">分景DOM</a>
+									 <a href="#panel-quyterm" data-toggle="tab" >分景DOM</a>
 								</li>
 								<li  style="width:25%">
-									 <a href="#panel-frame" data-toggle="tab">分幅DOM</a>
+									 <a href="#panel-frame" data-toggle="tab" >分幅DOM</a>
 								</li>
 								<li style="width:25%">
-									 <a href="#panel-quyresult" data-toggle="tab">结果列表</a>
+									 <a href="#panel-quyresult" data-toggle="tab" >结果列表</a>
 								</li>
 							</ul>
 							<div class="tab-content">
-								<div class="tab-pane active" id="panel-quyterm" style="height:100%">
+								<div class="tab-pane active" id="panel-quyterm" style="height:90%;">
 									<!-- 第二级选项卡 -->
-									<div class="row-fluid clearfix" style="height:100%">
+									<div class="row-fluid clearfix">
 										<div class="col-md-12 column">
 									<form id="qureyform">
 										<input type="hidden" id="wktPoly" name="wktPoly" >
@@ -1416,21 +1536,26 @@ String username="";
 									<!-- <p id="resuinfo" style="display:none;margin-top:40px">共查询到<label id="resuCount"></label>条记录</p> -->
 								</div>
 	                            <div class="tab-pane" id="panel-frame">
-	                                <!--  <iframe src="query_frame.jsp" frameborder="0" scrolling="yes" width=100% height=80%></iframe> -->
-	      	              		        <span>分幅号：</span> 
-		                            <input id="fenfuid" class="input-large" readonly="readonly" type="text" style="height:33px;width:227px">  
+	                               <form id="qureyform-DOMFRAME">
+	                                   <!--  <iframe src="query_frame.jsp" frameborder="0" scrolling="yes" width=100% height=80%></iframe> -->
+	      	              		        <span style="vertical-align: middle">分幅号：</span> 
+		                               <input id="fenfuid" name="fenfuid"  type="text" >
+		                            </form>  
 	                            </div>
 							</div>
-							<table style="width:80%;bottom:30px;">
-										<tr>
-										<td width="50%" style="text-align:right; padding-right:0px;">
-											<button id="resetQuy" class="btn btn-primary btn-sm" style="width:80px">重 置</button>
-										</td>
-										<td width="50%" style="text-align:right; padding-right:0px;">
-											<button id="testsub" class="btn btn-primary btn-sm" style="width:80px">数据查询</button>
-										</td>
-										</tr>
-									</table>
+							<div style="height:10%">
+								<table style="width:80%;">
+											<tr>
+											<td width="50%" style="text-align:right; padding-right:0px;">
+												<button id="resetQuy" class="btn btn-primary btn-sm" style="width:80px">重 置</button>
+											</td>
+											<td width="50%" style="text-align:right; padding-right:0px;">
+												<button id="testsub" class="btn btn-primary btn-sm" style="width:80px">数据查询</button>
+											</td>
+											</tr>
+								</table>
+							</div>
+							
 						</div>						
 					</div>
 				</div>				
@@ -1442,6 +1567,14 @@ String username="";
 	</div>
 	
 	<script type="text/javascript">
+	
+	
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {            
+       var  activeTab = $(e.target).text();
+       $("#ProductType").val(activeTab);
+       
+     });
+     
 	function advancequery()
 		{
 			var value=$("#AdanvceQueryID").val();

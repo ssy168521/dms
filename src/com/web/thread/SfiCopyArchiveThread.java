@@ -18,9 +18,8 @@ import org.dom4j.DocumentException;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 
-import com.sasmac.database.ImportMeta2Database;
+import com.sasmac.jni.ImageProduce;
 import com.sasmac.meta.Meta2Database;
-import com.sasmac.util.MetaTableUtil;
 import com.sasmac.util.smbAuthUtil;
 import com.web.common.Constants;
 import com.web.common.THREADSTATUS;
@@ -28,8 +27,11 @@ import com.web.service.WebService;
 import com.web.service.impl.WebServiceImpl;
 import com.web.util.AppUtil;
 import com.web.util.DbUtils;
+import com.web.util.PropertiesUtil;
+
 /**
  * 标准分幅产品迁移归档
+ * 
  * @author Administrator
  * @ClassName:SfiCopyArchiveThread
  * @Version 版本
@@ -40,7 +42,7 @@ public class SfiCopyArchiveThread extends BaseThread implements Runnable {
 	private Logger myLogger = LogManager.getLogger("mylog");
 	private int iCurridx = 0;// 当前归档的充号
 	private String archivePath;
-	/** 记录磁盘文件的后线程**/
+	/** 记录磁盘文件的后线程 **/
 	private StringBuilder allFilesSuffix;
 
 	/** windows环境下xml文件名称 **/
@@ -48,13 +50,13 @@ public class SfiCopyArchiveThread extends BaseThread implements Runnable {
 
 	private WebService service = null;
 
-	/** 数据在存储区的存储位置**/
-	private String storagePath="";//也就是归档后文件路径
+	/** 数据在存储区的存储位置 **/
+	private String storagePath = "";// 也就是归档后文件路径
 	/** 目标路径 **/
-//	private String destPath;
-	
+	// private String destPath;
+
 	private Connection conn = null;
-	/**文件数量 **/
+	/** 文件数量 **/
 	private int fileCount = 0;
 	int bIsSMBfile;;
 	int archivemode;
@@ -65,7 +67,7 @@ public class SfiCopyArchiveThread extends BaseThread implements Runnable {
 	 * @param conf
 	 */
 	public SfiCopyArchiveThread(String strArchivedir) {
-		//调用父类BaseThread的构造方法
+		// 调用父类BaseThread的构造方法
 		super("archive", THREADSTATUS.THREAD_STATUS_UNKNOWN.ordinal(), "数据归档",
 				new Date(), null, 0, "");
 
@@ -73,7 +75,7 @@ public class SfiCopyArchiveThread extends BaseThread implements Runnable {
 		service = new WebServiceImpl();
 		try {
 			bIsSMBfile = Constants.AssertFileIsSMBFileDir(strArchivedir);
-		}catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -82,7 +84,7 @@ public class SfiCopyArchiveThread extends BaseThread implements Runnable {
 	}
 
 	@Override
-	public void run() { //多线程
+	public void run() { // 多线程
 		setTaskStartTime(new Date());
 
 		myLogger.info("start archive:" + archivePath);
@@ -100,7 +102,7 @@ public class SfiCopyArchiveThread extends BaseThread implements Runnable {
 						+ Integer.toString(fileCount));
 
 				ergodicDir(rootPath);
-				
+
 			} else {
 				myLogger.info("请检查是否是本地归档！");
 			}
@@ -130,13 +132,14 @@ public class SfiCopyArchiveThread extends BaseThread implements Runnable {
 		}
 
 	}
-	
+
 	/**
-	 * 本机归档 
+	 * 本机归档
+	 * 
 	 * @param myPath
 	 * @throws Exception
 	 */
-	private void ergodicDir(java.io.File myPath) throws Exception{
+	private void ergodicDir(java.io.File myPath) throws Exception {
 
 		setTaskStatus(THREADSTATUS.THREAD_STATUS_RUNNING.ordinal());
 		java.io.File[] aF = myPath.listFiles();
@@ -156,7 +159,7 @@ public class SfiCopyArchiveThread extends BaseThread implements Runnable {
 					setTaskProgress(iProgress);
 					break;// 如果中断线程
 				}
-                 //无后缀名的文件名
+				// 无后缀名的文件名
 				filename = fF.getName().substring(0, fF.getName().indexOf("."));
 				myLogger.info("start archive " + Integer.toString(iCurridx)
 						+ " file");
@@ -166,38 +169,88 @@ public class SfiCopyArchiveThread extends BaseThread implements Runnable {
 				String satellite = "";
 				String productLevel = "";
 				int flag = 0;
-				//正则表达式比较  J46D001001
-				boolean bmatch = filename
-						.matches("J[0-9]{2}D[0-9]{3}[0-9]{3}"); //D代表1：10万分幅比例尺
+				// 正则表达式比较 J46D001001
+				boolean bmatch = filename.matches("J[0-9]{2}D[0-9]{3}[0-9]{3}"); // D代表1：10万分幅比例尺
 				if (bmatch) {
 					flag = 1;
 					satellite = "ZY3-1";
 					productLevel = "SC";
 
-				}else {
+				} else {
 					myLogger.info("file format is not support: " + filename);
 					continue;
 				}
-				//表名
-				String tablename = "tb_domframe_product";      //所有标准分幅产品信息都存于此表
-                String productName = "标准分幅产品";  //产品名字
+				// 表名
+				String tablename = "tb_domframe_product"; // 所有标准分幅产品信息都存于此表
+				String productName = "标准分幅产品"; // 产品名字
 				if (service.isFileArchive(conn, tablename, filename)) {
 					myLogger.info("file had exist database:" + filename);
 					continue;
 				}
-				if (isFinishCopy(fF.getAbsoluteFile()))					
-					//continue;
-				   fileArchive(fF);   //文件拷贝
-					//xml文件全路径
-					String xmlName = myPath.getPath() + fF.separator
+				if (isFinishCopy(fF.getAbsoluteFile()))
+					// continue;
+					fileArchive(fF); // 文件拷贝
+
+				// xml文件全路径
+				// String xmlName = myPath.getPath() + fF.separator +
+				// fF.getName();
+				// if (xmlName.substring(xmlName.lastIndexOf(".") - 3)
+				// .equalsIgnoreCase("tif.xml")) {
+				// Meta2Database mdb = new Meta2Database();
+				// mdb.xml2Db(filename, productName, tablename, xmlName);
+				// } else {
+				// myLogger.info("xml文件格式不对,继续！");
+				// }
+
+				// geotiff文件全路径
+				String tiffpath = myPath.getPath() + fF.separator
+						+ fF.getName();
+				if (tiffpath.substring(tiffpath.lastIndexOf("."))
+						.equalsIgnoreCase(".tif")) {
+					Meta2Database mdb = new Meta2Database();
+					mdb.tifToDb(filename, tablename, tiffpath);
+				} else {
+					myLogger.info("文件格式不对,继续！");
+				}
+
+				// tif重采样
+				if (tiffpath.substring(tiffpath.lastIndexOf("."))
+						.equalsIgnoreCase(".tif")) {
+
+					// tif图像原路径
+					String tifpath = myPath.getPath() + fF.separator
 							+ fF.getName();
-					if (xmlName.substring(xmlName.lastIndexOf(".")-3).equalsIgnoreCase("tif.xml")) {
-						Meta2Database mdb = new Meta2Database();
-						mdb.xml2Db(filename,productName,tablename,xmlName);
-					} else {					
-						myLogger.info("xml文件格式不对,继续！");
+					String StoragePath = filename.substring(0, 4);
+					String path = Constants.class.getClassLoader()
+							.getResource("/").toURI().getPath();
+					PropertiesUtil propertiesUtil = new PropertiesUtil(path
+							+ Constants.STR_CONF_PATH);
+					// 快视图路径
+					String OverviewStoragePath = propertiesUtil
+							.getProperty("overviewfilepath");
+
+					myLogger.info(" start ImageRectify overiew-png: "
+							+ filename + ".png");
+					ImageProduce imgprodu = new ImageProduce();
+					boolean res = false;
+					String destpath = OverviewStoragePath + StoragePath;
+
+					// String destpath1 = OverviewStoragePath + StoragePath;
+					File dest = new File(destpath);
+					if (!dest.exists()) {
+						dest.mkdirs();
 					}
-				
+					// 图像重采样
+					res = imgprodu.ImageRectify(tifpath, destpath
+							+ File.separator + filename + ".png", 256, 256);
+					if (!res) {
+						myLogger.info(filename + " :png overview build error !");
+					} else {
+						myLogger.info("finish ImageRectify overiew-png: "
+								+ filename + ".png");
+					}
+				}
+
 				myLogger.info("finish archive "
 						+ Integer.toString(iCurridx + 1) + " file");
 
@@ -207,8 +260,10 @@ public class SfiCopyArchiveThread extends BaseThread implements Runnable {
 			}
 		}
 	}
+
 	/**
-	 * 文件是否拷贝中 
+	 * 文件是否拷贝中
+	 * 
 	 * @param fileName
 	 * @return
 	 */
@@ -233,7 +288,8 @@ public class SfiCopyArchiveThread extends BaseThread implements Runnable {
 
 		return bFlag;
 	}
-	//数据校验规则
+
+	// 数据校验规则
 	private boolean CheckValid(java.io.File fileName) {
 
 		boolean bFlag = false;
@@ -323,6 +379,7 @@ public class SfiCopyArchiveThread extends BaseThread implements Runnable {
 
 	/**
 	 * 文件数量
+	 * 
 	 * @param strPath
 	 * @throws Exception
 	 */
@@ -366,71 +423,77 @@ public class SfiCopyArchiveThread extends BaseThread implements Runnable {
 
 		}
 	}
+
 	/**
 	 * 根据存储规则生成存储路径
+	 * 
 	 * @return
 	 */
 	private void genertateStoragePath(java.io.File fF) {
-		//获取Constants类路径 E:\MyEclipse2014 workspace\zy3dms\src
-		String path=null;
+		// 获取Constants类路径 E:\MyEclipse2014 workspace\zy3dms\src
+		String path = null;
 		try {
-			path = Constants.class.getClassLoader().getResource("/")
-					.toURI().getPath();
+			path = Constants.class.getClassLoader().getResource("/").toURI()
+					.getPath();
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		SAXReader reader = new SAXReader();
 		Document document = null;
-			try {
-				document = reader.read(path+ Constants.STR_SFICOPY_PATH);
-			} catch (DocumentException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}//读取conf文件下存储路径
-	
-		//xml设置的归档路径最多7个层级，不到7层级的不填。
+		try {
+			document = reader.read(path + Constants.STR_SFICOPY_PATH);
+		} catch (DocumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}// 读取conf文件下存储路径
+
+		// xml设置的归档路径最多7个层级，不到7层级的不填。
 		Node node01 = document.selectSingleNode("/StoragePath/diskname");
 		String diskname = node01.getText();
-		File f=new File(diskname+"\\");
-		if(!f.exists()){
+		File f = new File(diskname + "\\");
+		if (!f.exists()) {
 			myLogger.info("磁盘不存在，请在StoragePath.xml配置新盘符！");
 		}
-		Node node02 = document.selectSingleNode("/StoragePath/Levelone");		
+		Node node02 = document.selectSingleNode("/StoragePath/Levelone");
 		String Levelone = node02.getText();
-		Node node03 = document.selectSingleNode("/StoragePath/Leveltwo");		
+		Node node03 = document.selectSingleNode("/StoragePath/Leveltwo");
 		String Leveltwo = node03.getText();
-		Node node04 = document.selectSingleNode("/StoragePath/Levelthree");		
+		Node node04 = document.selectSingleNode("/StoragePath/Levelthree");
 		String Levelthree = node04.getText();
-		Node node05 = document.selectSingleNode("/StoragePath/Levelfour");		
+		Node node05 = document.selectSingleNode("/StoragePath/Levelfour");
 		String Levelfour = node05.getText();
-		Node node06 = document.selectSingleNode("/StoragePath/Levelfive");		
+		Node node06 = document.selectSingleNode("/StoragePath/Levelfive");
 		String Levelfive = node06.getText();
-		Node node07 = document.selectSingleNode("/StoragePath/Levelsix");		
+		Node node07 = document.selectSingleNode("/StoragePath/Levelsix");
 		String Levelsix = node07.getText();
-		String[] Path = {diskname,Levelone,Leveltwo,Levelthree,Levelfour,Levelfive,Levelsix};
-		storagePath="";
-		for(String s:Path){
-			if(s!=null && s.trim()!=""){
-				storagePath = storagePath+s+"\\";
+		String[] Path = { diskname, Levelone, Leveltwo, Levelthree, Levelfour,
+				Levelfive, Levelsix };
+		storagePath = "";
+		for (String s : Path) {
+			if (s != null && s.trim() != "") {
+				storagePath = storagePath + s + "\\";
 			}
 		}
 		String filename = fF.getName().substring(0, fF.getName().indexOf("."));
-		storagePath = storagePath.substring(0, storagePath.lastIndexOf("\\"))+"\\"
-		+filename.substring(0,4)+"\\"+filename.substring(4,7)+"\\"+filename.substring(7,10);
-		myLogger.info("归档路径："+storagePath);
-		//storagePath = "E:\\database\\标准分幅" + "\\" + "J46" ;
+		storagePath = storagePath.substring(0, storagePath.lastIndexOf("\\"))
+				+ "\\" + filename.substring(0, 4);
+		myLogger.info("归档路径：" + storagePath);
+		// storagePath = "E:\\database\\标准分幅" + "\\" + "J46" ;
 	}
-	
+
 	/**
-	 * 数据归档 
+	 * 数据归档
+	 * 
 	 * @return
 	 */
 	private void fileArchive(java.io.File sourceFile) throws Exception {
 		genertateStoragePath(sourceFile);
-		//copyFileToDirectory()拷贝文件到指定目录文件
-		FileUtils.copyFileToDirectory(sourceFile, new java.io.File(this.storagePath));
+		// copyFileToDirectory()拷贝文件到指定目录文件
+		FileUtils.copyFileToDirectory(sourceFile, new java.io.File(
+				this.storagePath));
 	}
+
 	/**
 	 * startTime 涓�endTime 鐩稿悓鏃�24灏忔椂褰掓。
 	 */

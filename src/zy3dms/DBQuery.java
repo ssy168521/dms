@@ -2,7 +2,9 @@
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URISyntaxException;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.ServletException;
@@ -10,12 +12,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.geotools.geojson.GeoJSON;
-
 import com.sasmac.dbconnpool.ConnPoolUtil;
-import com.sasmac.servlet.Loadoverview;
 import com.sasmac.util.Layer2GeoJSON;
-import com.sasmac.util.Layer2GeoJSON2;
 import com.vividsolutions.jts.io.ParseException;
 
 public class DBQuery extends HttpServlet {
@@ -66,6 +64,33 @@ public class DBQuery extends HttpServlet {
 
 	}
 
+	// 更新所有角色列表
+	public String GetProductTabName(String strProductType) {
+
+		java.sql.Connection conn = ConnPoolUtil.getConnection();
+		if (conn == null)
+			return "";
+
+		String sql = "select tablename from  tb_metamanager where ProductType='"
+				+ strProductType + "'";
+		String TableName = "";
+		try {
+			PreparedStatement psmt = conn.prepareStatement(sql);//
+			ResultSet rs = psmt.executeQuery();
+			while (rs.next()) {
+				TableName = rs.getString(1);
+			}
+			psmt.close();
+			rs.close();
+
+			ConnPoolUtil.close(conn, null, null);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return TableName;
+	}
+
 	/**
 	 * The doPost method of the servlet. <br>
 	 * 
@@ -94,48 +119,37 @@ public class DBQuery extends HttpServlet {
 				.getParameterValues("zy3_sensorradio");
 
 		String[] zy3_radio = request.getParameterValues("zy3_radio");
-		// System.out.println(wktPoly);
-		String strWherClause = BuildSQL.querySQL2(request);//查询语句 cloudPercent>=0 and cloudPercent<=20
-		// String strWherClause = BuildSQL.BuildWhereClause(request);
-		// System.out.println(strSQL);
+		String ProductType = request.getParameter("ProductType");
 
-		String tbname = request.getParameter("tbname");//2018\1\2
-		// tbname = MetaTableUtil.GetTableName(conn, satellite, productLevel);
-		tbname = "TB_SC_PRODUCT";//数据库表名
-		String tbname2="tif2db1";
-		String conffilepath = "";
-		try {
-			///C:/Program Files/System Software/apache-tomcat-8.5.13/webapps/zy3dms/WEB-INF/classes/
-			conffilepath = Loadoverview.class.getClassLoader().getResource("/")
-					.toURI().getPath();
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		// 数据库表名
+		if (ProductType == null) {
+			return;
 		}
-		conffilepath += "com/sasmac/conf/dbConnConf.properties";
-		// Layer pLayer=GDALmysql.ExecuteQuery(strSQL,wktPoly,conffilepath);
-		// int cunt = pLayer.GetFeatureCount();
+		String tbname = GetProductTabName(ProductType);
 
-		// String geojsonstr=pLayer.exporttojson();
-		/*
-		 * String ConnectStr = ReadConf.getGDALConnStr(conffilepath); // String
-		 * ConnectStr = "";
-		 * 
-		 * GDALtoGeoJSON obj = new GDALtoGeoJSON(); String geojsonstr =
-		 * obj.Layer2GeoJSON(ConnectStr, strSQL, wktPoly, "OGRSQL");
-		 */
+		if (tbname == "")
+			return;
+		// System.out.println(wktPoly);
+		String strWherClause = "";
+
+		if (ProductType.compareToIgnoreCase("分幅DOM") == 0) {
+			strWherClause = BuildSQL.querySQLbyDOMScene(request);
+
+		} else {
+			strWherClause = BuildSQL.querySQLbySC(request);
+		}
 
 		String geojsonstr = "";
-		String geojsonstr2="";//2018\1\2
+		// String geojsonstr2 = "";// 2018\1\2
 		Layer2GeoJSON layer2GeoJson = new Layer2GeoJSON();
-		Layer2GeoJSON2 layer2GeoJson2 = new Layer2GeoJSON2();
-		int nsensor=0;
-		if(zy3_sensorradio!=null){
+		// Layer2GeoJSON2 layer2GeoJson2 = new Layer2GeoJSON2();
+		int nsensor = 0;
+		if (zy3_sensorradio != null) {
 			nsensor = zy3_sensorradio.length;
 		}
-		 
+
 		ArrayList<String> sensorarr = new ArrayList<String>();
-		
+
 		if (nsensor == 1) { // 配套查询
 			if (zy3_sensorradio[0].compareToIgnoreCase("NADMUX") == 0) {
 				sensorarr.add("NAD");
@@ -170,20 +184,19 @@ public class DBQuery extends HttpServlet {
 			}
 
 		} else {
-			// String wkt ="POLYGON((-170 80, 170 80, 170 -80, -170 -80, -170 80))";
 			try {
-				//获取geojson数据
-				geojsonstr  = layer2GeoJson.ToGeoJSON(tbname, wktPoly,strWherClause);
-				geojsonstr2 =layer2GeoJson2.ToGeoJSON2(tbname2,wktPoly);     //2018\1\2
+				// 获取geojson数据
+				geojsonstr = layer2GeoJson.ToGeoJSON(tbname, wktPoly,
+						strWherClause);
 			} catch (ParseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		String geojson=geojsonstr+","+geojsonstr2;
+
 		PrintWriter out = response.getWriter();
-		out.print(geojson);//在web端绘制
-		//out.print(geojsonstr2);//2018\1\2
+		out.print(geojsonstr);// 在web端绘制
+
 		out.flush();
 		out.close();
 	}

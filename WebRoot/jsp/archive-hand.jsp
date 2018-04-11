@@ -34,10 +34,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head> 
 <body> 
     <div class="panel-head"><strong class="icon-reorder">自动归档</strong></div>
-	<div class="col-md-4 column" style="height:100%;">
+	<div class="col-md-4 column" style="height:100%;width:100%">
 		<div class="tabbable" id="tabs-237916">
            <div style="text-align:center; padding-top:15px">
-		     <ul class="nav nav-tabs">
+		     <ul class="nav nav-tabs" style="width:100%">
 				<li class="active" style="width:33%">
 					 <a href="#sc-query-region" data-toggle="tab">传感器校正产品</a>
 				</li>

@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.JavaIdentifierTransformer;
@@ -19,6 +18,8 @@ import net.sf.json.util.JavaIdentifierTransformer;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.geotools.data.FeatureSource;
 import org.geotools.data.Query;
 import org.geotools.data.mysql.MySQLDataStoreFactory;
@@ -37,7 +38,6 @@ import org.opengis.feature.type.FeatureType;
 import org.opengis.filter.Filter;
 import org.opengis.filter.FilterFactory2;
 
-import com.mysql.jdbc.Connection;
 import com.sasmac.meta.spatialmetadata;
 //import org.opengis.geometry.Geometry;
 import com.vividsolutions.jts.geom.Geometry;
@@ -49,6 +49,8 @@ import com.web.util.PropertiesUtil;
 
 public class Layer2GeoJSON {
 
+	private Logger myLogger = LogManager.getLogger("mylog");
+
 	public Filter getGeoFilter(FilterFactory2 ff, // 构建拓扑查询的filter
 			String geometryAttributeName, Geometry refGeo) {
 
@@ -56,10 +58,103 @@ public class Layer2GeoJSON {
 				ff.literal(refGeo));
 
 	}
+
+	public String ToGeoJSONJDBC2(java.sql.Connection conn, String wkt,
+			String whereClause) throws ParseException {
+
+		QueryRunner qr = new QueryRunner();
+		ResultSetHandler<List<spatialmetadata>> rsh = new BeanListHandler<spatialmetadata>(
+				spatialmetadata.class);
+
+		String strWhereGeo = "";
+		if (!wkt.isEmpty())
+			strWhereGeo = "ST_Intersects(shape,ST_GeomFromText('" + wkt + "')";
+		if (!strWhereGeo.isEmpty()) {
+			if (!whereClause.isEmpty()) {
+				whereClause += " and " + strWhereGeo;
+			} else {
+				whereClause += strWhereGeo;
+			}
+		}
+
+		String strSQL = "select astext(shape) as wktstring,dataid,FileName,"
+				+ "ArchiveTime from " + "tb_sc_product " + whereClause;
+
+		List<spatialmetadata> SMDlist = null;
+		try {
+			SMDlist = qr.query(conn, strSQL, rsh);
+			if (SMDlist == null)
+				return "";
+			int num = SMDlist.size();
+			if (num <= 0)
+				return "";
+
+			// JSONArray jsonArray = JSONArray.fromObject(SMDlist);
+
+			String strLayerJSON = "{\"type\" :\"FeatureCollection\",\"features\" :[";
+			boolean b = false;
+			String json = null;
+			JsonConfig jsonConfig = new JsonConfig();
+			jsonConfig.registerJsonValueProcessor(Date.class,
+					new JsonDateValueProcessor());
+			JsonJavaIdentifierTransformer a = new JsonJavaIdentifierTransformer();
+			jsonConfig
+					.setJavaIdentifierTransformer(new JavaIdentifierTransformer() {
+
+						@Override
+						public String transformToJavaIdentifier(String key) {
+							if (key.compareToIgnoreCase("fileName") == 0) {
+								key = "FileName";
+							}
+							// TODO Auto-generated method stub
+							return null;
+						}
+					});
+			jsonConfig.setExcludes(new String[] { "wktstring" });
+			// jsonConfig.
+			for (int i = 0; i < num; i++) {
+				if (b) {
+					strLayerJSON += ",";
+				}
+				b = true;
+				String feature = "{\"type\":\"Feature\",\"geometry\":";
+				spatialmetadata md = SMDlist.get(i);
+
+				try {
+					WKTReader reader = new WKTReader();
+					Geometry geometry = reader.read(md.getwktString());
+					StringWriter writer = new StringWriter();
+					GeometryJSON g = new GeometryJSON();
+					g.write(geometry, writer);
+					json = writer.toString();
+					feature += json;
+					feature += ",\"properties\":";
+					JSONObject json1 = JSONObject.fromObject(md, jsonConfig);
+					String property = json1.toString();
+					feature += property;
+					feature += "}";
+					strLayerJSON += feature;
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+			strLayerJSON += "]}";
+			return strLayerJSON;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return "";
+	}
+
 	public String ToGeoJSONJDBC(java.sql.Connection conn, String wkt,
 			String whereClause, String satellite, String[] sensorarr)
 			throws ParseException {
- 		int ncnt = sensorarr.length;
+		int ncnt = sensorarr.length;
 		if (sensorarr.length <= 1)
 			return "";
 		QueryRunner qr = new QueryRunner();
@@ -67,11 +162,11 @@ public class Layer2GeoJSON {
 				spatialmetadata.class);
 		String sumsql1 = "";
 		String sumsql2 = "";
-		String strSensorwhere="(";
-		
+		String strSensorwhere = "(";
+
 		for (int i = 0; i < ncnt; i++) {
 			sumsql1 += "sum(sensor='" + sensorarr[i] + "') as " + sensorarr[i];
-			strSensorwhere+="sensor='" + sensorarr[i] + "'";
+			strSensorwhere += "sensor='" + sensorarr[i] + "'";
 			if (i != ncnt - 1)
 				strSensorwhere += " or ";
 			if (i != ncnt - 1)
@@ -81,9 +176,9 @@ public class Layer2GeoJSON {
 			if (i != ncnt - 1)
 				sumsql2 += " and ";
 		}
-		strSensorwhere+=")";
-		
-		String strWheresatellite = "";//(sensor='NAD' or sensor='MUX')
+		strSensorwhere += ")";
+
+		String strWheresatellite = "";// (sensor='NAD' or sensor='MUX')
 
 		if (satellite == "") {
 			strWheresatellite = " (satellite = 'zy3-1' or satellite = 'zy3-2') ";
@@ -111,18 +206,17 @@ public class Layer2GeoJSON {
 		}
 		if (!whereClause.isEmpty()) {
 			whereClause += " and ";
-			whereClause +=strSensorwhere;
+			whereClause += strSensorwhere;
 		}
 		String whereClause1 = "";
 		if (!whereClause.isEmpty()) {
-			if(!whereClause.startsWith(" where"))
-			{
+			if (!whereClause.startsWith(" where")) {
 				whereClause = " where " + whereClause;
-			};
+			}
+			;
 			whereClause1 = whereClause;
 			whereClause += " and ";
 		}
-
 
 		String strSQL = "select astext(shape) as wktstring,dataid,FileName,FilePath,sceneRow,scenepath,orbitid,satellite,sensor,acquisitionTime,"
 				+ "ArchiveTime,productLevel,cloudPercent from "
@@ -144,59 +238,60 @@ public class Layer2GeoJSON {
 			int num = SMDlist.size();
 			if (num <= 0)
 				return "";
-			
-			//JSONArray jsonArray = JSONArray.fromObject(SMDlist);
+
+			// JSONArray jsonArray = JSONArray.fromObject(SMDlist);
 
 			String strLayerJSON = "{\"type\" :\"FeatureCollection\",\"features\" :[";
 			boolean b = false;
-			String json = null;  
-			JsonConfig jsonConfig = new JsonConfig();  
-			jsonConfig.registerJsonValueProcessor(Date.class, new JsonDateValueProcessor()); 
-			JsonJavaIdentifierTransformer a= new JsonJavaIdentifierTransformer();
-			jsonConfig.setJavaIdentifierTransformer(new JavaIdentifierTransformer(){
+			String json = null;
+			JsonConfig jsonConfig = new JsonConfig();
+			jsonConfig.registerJsonValueProcessor(Date.class,
+					new JsonDateValueProcessor());
+			JsonJavaIdentifierTransformer a = new JsonJavaIdentifierTransformer();
+			jsonConfig
+					.setJavaIdentifierTransformer(new JavaIdentifierTransformer() {
 
-				@Override
-				public String transformToJavaIdentifier(String key) {
-					if(key.compareToIgnoreCase("fileName")==0)
-					{
-						key="FileName";
-					}
-					// TODO Auto-generated method stub
-					return null;
-				}} ); 
-			jsonConfig.setExcludes( new String[]{"wktstring"});
-			//jsonConfig.
-	        for(int i=0;i<num;i++)
-	        {
-	        	if (b) {
+						@Override
+						public String transformToJavaIdentifier(String key) {
+							if (key.compareToIgnoreCase("fileName") == 0) {
+								key = "FileName";
+							}
+							// TODO Auto-generated method stub
+							return null;
+						}
+					});
+			jsonConfig.setExcludes(new String[] { "wktstring" });
+			// jsonConfig.
+			for (int i = 0; i < num; i++) {
+				if (b) {
 					strLayerJSON += ",";
 				}
-	        	b=true;
-	        	String feature="{\"type\":\"Feature\",\"geometry\":";
-	        	spatialmetadata md=SMDlist.get(i);
-	        	
-	            try{  
-	 	            WKTReader reader = new WKTReader();  
-	 	            Geometry geometry = reader.read(md.getwktString());  
-	 	            StringWriter writer = new StringWriter();  
-	 	            GeometryJSON g = new GeometryJSON();  
-	 	            g.write(geometry,writer);  
-	 	            json = writer.toString();  
-	 	            feature+=json;
-	 	            feature+=",\"properties\":";
-	 	            JSONObject json1 =JSONObject.fromObject(md,jsonConfig);
-	 	        	String property=json1.toString();
-	 	        	feature+=property;
-	 	        	feature+="}";
-	 	        	strLayerJSON+=feature;
-	 	       
-	 	        }catch(Exception e){  
-	 	            e.printStackTrace();  
-	 	        }  
-	       
-	        }	
+				b = true;
+				String feature = "{\"type\":\"Feature\",\"geometry\":";
+				spatialmetadata md = SMDlist.get(i);
+
+				try {
+					WKTReader reader = new WKTReader();
+					Geometry geometry = reader.read(md.getwktString());
+					StringWriter writer = new StringWriter();
+					GeometryJSON g = new GeometryJSON();
+					g.write(geometry, writer);
+					json = writer.toString();
+					feature += json;
+					feature += ",\"properties\":";
+					JSONObject json1 = JSONObject.fromObject(md, jsonConfig);
+					String property = json1.toString();
+					feature += property;
+					feature += "}";
+					strLayerJSON += feature;
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
 			strLayerJSON += "]}";
-			return strLayerJSON ;
+			return strLayerJSON;
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -205,9 +300,12 @@ public class Layer2GeoJSON {
 
 		return "";
 	}
+
 	/**
 	 * 获取geojson
-	 * @param LayerName 表名
+	 * 
+	 * @param LayerName
+	 *            表名
 	 * @param wkt
 	 * @param WhereClause
 	 * @return
@@ -216,14 +314,13 @@ public class Layer2GeoJSON {
 	public String ToGeoJSON(String LayerName, String wkt, String WhereClause)
 			throws ParseException {
 
-		JDBCDataStore pgDatastore=null;
+		JDBCDataStore pgDatastore = null;
 		MySQLDataStoreFactory factory1 = new MySQLDataStoreFactory();
 		FeatureSource fsBC1;
 
 		String conffilepath = "";
 
 		try {
-		///C:/Program Files/System Software/apache-tomcat-8.5.13/webapps/zy3dms/WEB-INF/classes/
 			conffilepath = Layer2GeoJSON.class.getClassLoader()
 					.getResource("/").toURI().getPath();
 		} catch (URISyntaxException e) {
@@ -244,14 +341,15 @@ public class Layer2GeoJSON {
 		try {
 			JDBCDataStore ds = (JDBCDataStore) factory1
 					.createDataStore(params1);
-		//	SQLDialect p=ds.getSQLDialect();
-			
-			LayerName = LayerName.toLowerCase();//大写转小写
+			// SQLDialect p=ds.getSQLDialect();
+
+			LayerName = LayerName.toLowerCase();// 大写转小写
 			FeatureSource fs = ds.getFeatureSource(LayerName);
-		
-			FeatureType schema = fs.getSchema(); //表的所有字段
-			//数据类型shape
-			String geometryAttributeName = schema.getGeometryDescriptor().getLocalName();
+
+			FeatureType schema = fs.getSchema(); // 表的所有字段
+			// 数据类型shape
+			String geometryAttributeName = schema.getGeometryDescriptor()
+					.getLocalName();
 
 			GeometryFactory geometryFactory = JTSFactoryFinder
 					.getGeometryFactory();
@@ -266,22 +364,45 @@ public class Layer2GeoJSON {
 			Filter filter2 = null;
 
 			try {
-				filter2 = CQL.toFilter(WhereClause);//过滤器（云量>=0且<=20）
+				filter2 = CQL.toFilter(WhereClause);// 过滤器（云量>=0且<=20）
 			} catch (CQLException e1) {
 
 				e1.printStackTrace();
 			}
 
 			List<Filter> match = new ArrayList<Filter>();
-			match.add(Spatialfilter);
+			if (Spatialfilter != null)
+				match.add(Spatialfilter);
 			match.add(filter2);
 
 			Filter filter = ff.and(match);
 			SimpleFeatureCollection result = null;
-			String[] fields = { geometryAttributeName, "dataid", "FileName",
-					"FilePath", "scenePath", "sceneRow", "orbitID",
-					"satellite", "sensor", "acquisitionTime", "ArchiveTime",
-					"productLevel", "cloudPercent" };
+			String[] fields = null;
+			if (LayerName.compareToIgnoreCase("TB_DOMFRAME_PRODUCT") == 0) {//标准分幅
+
+				String[] fields1 = { geometryAttributeName, "dataid",
+						"FileName", "FilePath", "archiveTime" };
+				fields = fields1;
+
+			} else if (LayerName.compareToIgnoreCase("TB_DOMSCENE_PRODUCT") == 0) {//分景
+				String[] fields1 = { geometryAttributeName, "dataid",
+						"FileName", "FilePath", "scenePath", "sceneRow",
+						"orbitID", "satellite", "sensor", "acquisitionTime",
+						"ArchiveTime", "productLevel", "cloudPercent" };
+				fields = fields1;
+			} else if (LayerName.compareToIgnoreCase("TB_SC_PRODUCT") == 0) {//SC产品
+				String[] fields1 = { geometryAttributeName, "dataid",
+						"FileName", "FilePath", "scenePath", "sceneRow",
+						"orbitID", "satellite", "sensor", "acquisitionTime",
+						"ArchiveTime", "productLevel", "cloudPercent" };
+				fields = fields1;
+			}
+
+			if (fields == null) {
+				myLogger.error("ToGeoJSON 没有合适的查询字段");
+				return "";
+			}
+
 			Query query = new Query(LayerName, filter, fields);
 			try {
 				result = (SimpleFeatureCollection) fs.getFeatures(query);
@@ -289,11 +410,11 @@ public class Layer2GeoJSON {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			int nFeatureCount = result.size();//933,筛选出表中933个符合条件的数据
+			int nFeatureCount = result.size();
 			if (nFeatureCount <= 0)
 				return "";
 			// JSONArray.fromObject(object);
-			//geojson数据的格式
+			// geojson数据的格式
 			String strLayerJSON = "{\"type\" :\"FeatureCollection\",\"features\" :[";
 			boolean b = false;
 			FeatureIterator itertor = result.features();
@@ -309,14 +430,14 @@ public class Layer2GeoJSON {
 
 				ByteArrayOutputStream os = new ByteArrayOutputStream();
 				fj.writeFeature((SimpleFeature) feature, os);
-				
+
 				os.close();
 				strLayerJSON += os.toString();
 			}
 			itertor.close();
-			//strLayerJSON += "]}";
+			strLayerJSON += "]}";
 			ds.dispose();
-			//System.out.println(strLayerJSON);
+			// System.out.println(strLayerJSON);
 			return strLayerJSON;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

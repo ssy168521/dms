@@ -100,7 +100,15 @@ public class BuildSQL {
 		return strWhereSQL;
 	}
 
-	public static String querySQL2(HttpServletRequest request) {
+	public static String querySQLbyDOMScene(HttpServletRequest request) {
+		String fenfuid = request.getParameter("fenfuid");
+		if (fenfuid == null || fenfuid.isEmpty())
+			return "";
+		String strSQL = "FileName='" + fenfuid + "'";
+		return strSQL;
+	}
+
+	public static String querySQLbySC(HttpServletRequest request) {
 		String[] zy301sensor = request.getParameterValues("zy301sensor");
 		String[] zy302sensor = request.getParameterValues("zy302sensor");
 		String[] gf1sensor = request.getParameterValues("gf1sensor");
@@ -172,7 +180,7 @@ public class BuildSQL {
 			strSQL += "ArchiveTime<='" + archivedate2 + "'";
 			strSQL += " and ";
 		}
-		if (zy3_sensorradio==null ||zy3_sensorradio.length <= 0) // 一般查询
+		if (zy3_sensorradio == null || zy3_sensorradio.length <= 0) // 一般查询
 		{
 			if (zy301sensor != null) {
 				strSQL += "satellite='ZY3-1'";

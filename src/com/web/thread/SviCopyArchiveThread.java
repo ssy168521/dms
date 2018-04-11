@@ -14,14 +14,16 @@ import org.dom4j.DocumentException;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
 
+import com.sasmac.jni.ImageProduce;
 import com.sasmac.meta.Meta2Database;
 import com.web.common.Constants;
 import com.web.common.THREADSTATUS;
 import com.web.service.WebService;
 import com.web.service.impl.WebServiceImpl;
 import com.web.util.DbUtils;
+import com.web.util.PropertiesUtil;
 /**
- * 分景产品扫描归档
+ * 分景产品迁移归档
  * @author Administrator
  * @ClassName:SviCopyArchiveThread
  * @Version 版本
@@ -143,7 +145,7 @@ public class SviCopyArchiveThread extends BaseThread implements Runnable{
 					break;// 如果中断线程
 				}
                  //无后缀名的文件名
-				filename = fF.getName().substring(0, fF.getName().indexOf("."));
+				filename = fF.getName().substring(0, fF.getName().lastIndexOf("."));
 				myLogger.info("start archive " + Integer.toString(iCurridx)
 						+ " file");
 				int intNowHour = Calendar.getInstance().get(
@@ -152,23 +154,27 @@ public class SviCopyArchiveThread extends BaseThread implements Runnable{
 				String satellite = "";
 				int flag = 0;
 				//正则表达式比较  
-				if (filename   //GF1_E1089N274_20160517_016482_19_M
-						.matches("GF1_E[0-9]{4}N[0-9]{3}_[0-9]{8}_[0-9]{6}_[0-9]{2}_M")) {
+				if (filename.substring(0,filename.indexOf("_")+1)   //
+						.matches("GF1_")){
 					flag = 1;
 					satellite = "GF1";
-				}else if(filename.  //GF2_E1100N381_20160412_008910_19_M
-						matches("GF2_E[0-9]{4}N[0-9]{3}_[0-9]{8}_[0-9]{6}_[0-9]{2}_M")){
+				}else if(filename.substring(0,filename.indexOf("_")+1).  //
+						matches("GF2_")){
 					flag = 2;
 					satellite = "GF2";
-				}else if(filename.  //TH_006149_20160204_020842_19_M
-						matches("TH_[0-9]{6}_[0-9]{8}_[0-9]{6}_[0-9]{2}_M")){
+				}else if(filename.substring(0,filename.indexOf("_")+1).  //TH_006149_20160204_020842_19_M
+						matches("TH_")){
 					flag = 3;
 					satellite = "TH";
-				}else if(filename.  //ZY3_010149_20160207_022661_19_M
-						matches("ZY3_[0-9]{6}_[0-9]{8}_[0-9]{6}_[0-9]{2}_M")){
+				}else if(filename.substring(0,filename.indexOf("_")+1).  //
+						matches("zy301a_")){
 					flag = 4;
-					satellite = "ZY3";
-				}else {
+					satellite = "zy301a";
+				}else if(filename.substring(0,filename.indexOf("_")+1).
+						matches("zy302a_")){
+					flag = 5;
+					satellite = "zy302a";
+				}else{
 					myLogger.info("file format is not support: " + filename);
 					continue;
 				}
@@ -191,6 +197,45 @@ public class SviCopyArchiveThread extends BaseThread implements Runnable{
 						mdb.tif2Db(satellite,filename,tablename,tiffpath);
 					} else {					
 						myLogger.info("文件格式不对,继续！");
+					}
+				
+					// tif重采样
+					if (tiffpath.substring(tiffpath.lastIndexOf("."))
+							.equalsIgnoreCase(".tif")) {
+
+						// tif图像原路径
+						String tifpath = myPath.getPath() + fF.separator
+								+ fF.getName();
+						String[] ss=filename.split("_");
+						String StoragePath = ss[0]+"\\"+ss[1]+"\\"+ss[4];
+						String path = Constants.class.getClassLoader()
+								.getResource("/").toURI().getPath();
+						PropertiesUtil propertiesUtil = new PropertiesUtil(path
+								+ Constants.STR_CONF_PATH);
+						// 快视图路径
+						String OverviewStoragePath = propertiesUtil
+								.getProperty("overviewfilepath");
+
+						myLogger.info(" start ImageRectify overiew-png: "
+								+ filename + ".png");
+						ImageProduce imgprodu = new ImageProduce();
+						boolean res = false;
+						String destpath = OverviewStoragePath + StoragePath;
+
+						// String destpath1 = OverviewStoragePath + StoragePath;
+						File dest = new File(destpath);
+						if (!dest.exists()) {
+							dest.mkdirs();
+						}
+						// 图像重采样
+						res = imgprodu.ImageRectify(tifpath, destpath
+								+ File.separator + filename + ".png", 256, 256);
+						if (!res) {
+							myLogger.info(filename + " :png overview build error !");
+						} else {
+							myLogger.info("finish ImageRectify overiew-png: "
+									+ filename + ".png");
+						}
 					}
 				
 				myLogger.info("finish archive "
@@ -301,10 +346,10 @@ public class SviCopyArchiveThread extends BaseThread implements Runnable{
 				storagePath = storagePath+s+"\\";
 			}
 		}
-		String filename = fF.getName().substring(0, fF.getName().indexOf("."));
+		String filename = fF.getName().substring(0, fF.getName().lastIndexOf("."));
 		String[] ss=filename.split("_");
 		storagePath = storagePath.substring(0, storagePath.lastIndexOf("\\"))+"\\"
-		+ss[0]+"\\"+ss[2];
+		+ss[0]+"\\"+ss[1]+"\\"+ss[4];
 		myLogger.info("归档路径："+storagePath);
 		//storagePath = "E:\\database\\标准分幅" + "\\" + "J46" ;
 	}

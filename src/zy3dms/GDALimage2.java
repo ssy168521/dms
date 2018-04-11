@@ -19,10 +19,15 @@ public class GDALimage2 {
 	}
 
 	public static void main(String[] args) {
-		GetImageExtent("E:\\database\\overview\\J46\\J46D001001.png");
+		//GetImageExtent("E:\\database\\overview\\J46\\J46D001001.png");
 	}
     //初始点坐标（geomatrix[0]、geomatrix[3])
 	//旋转角度（geomatrix[2]、geomatrix[4])、像素分辨率（geomatrix[1]、geomatrix[5])
+	/**
+	 * 读取图像范围
+	 * @param strImageUrl
+	 * @return
+	 */
 	public static String GetImageExtent(String strImageUrl) {
 		String strExtent = "";
 		gdal.AllRegister();

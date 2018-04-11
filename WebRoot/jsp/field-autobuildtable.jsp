@@ -41,28 +41,38 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="row-fluid">
 		<div class="span12">
 			<div class="row-fluid">
-				<div class="span4" id="product">
-					<form class="form-inline">
-						<fieldset>
-							 <label>产品名称 : </label><input type="text" id="producttype"/> <span class="help-block">输入归档产品类型.</span>
-						</fieldset>
-					</form>
-				</div>
-				<div class="span4" id="table">
-					<form class="form-inline">
-						<fieldset>
-							 <label>数据库表名 : </label><input type="text" id="tablename" /> <span class="help-block">输入要建库的数据表名</span>
-						</fieldset>
-			       </form>
-				</div>
-				<div class="span4" id="panel-importshp">
-					<form name="myForm"  enctype="multipart/form-data" >
-			                      <input type="button" class="btn btn-primary" id="btn" value="确定" >    
-			                 <span style="display:inline-block;"> 
-					              <input type="file" accept="text/xml" name="xmlfile" >	 
-					        </span>  
-				        </form>
-				  </div>
+			    <form name="myForm"  enctype="multipart/form-data" >
+			       <div class="tab-pane active" id="panel-region">
+						<table width=100% height=60% style="vertical-align:middle">
+							<tr height=30%>
+								<td width=40% style="text-align:right;padding-right:15px">
+									产品名称 : 
+								</td>
+								<td width=60% style="vertical-align:middle">
+									<input type="text" id="producttype"/> 输入归档产品类型.
+								</td>															
+							</tr>
+							<tr height=30%>
+								<td width=40% style="text-align:right;padding-right:15px">
+									数据库表名 :
+								</td>
+								<td width=60%>
+								 <input type="text" id="tablename" /> <span class="help-block">输入要建库的数据表名</span>
+								</td>															
+							</tr>
+							<tr height=30%>
+								<td width=40% style="text-align:right;padding-right:15px">
+									
+								</td>
+								<td width=60%>
+								 <input type="file" accept="text/xml" name="xmlfile" value="浏览...">	
+								</td>															
+							</tr>
+						</table>
+					</div>
+					<input type="button" class="btn btn-primary" id="btn" value="确定">    
+				   
+			    </form>
 			</div>
 		</div>
 	</div>
@@ -73,7 +83,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <span class="help-block">说明：在表中选择合适的xml节点，然后输入新的字段名，建立字段节点连接关系</span>
     	</li>
    </div>
-    <table id="userTable" class="table-userTable" style="height:100%;"></table>   
+    <table id="userTable" class="table-userTable" style="height:100%; width: 96px"></table>   
     <form id="subform" method="post">
         <input type="hidden" id="subfieldid" name="subid"/>
     	<input type="hidden" id="subfieldName" name="subuserid"/>
@@ -176,7 +186,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     });
        
     	
-    		function actionFormatter(value,row,index){
+   function actionFormatter(value,row,index){
     			
     			var resu= '<div class="button-group">'+
     						
@@ -185,9 +195,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     						'</div>';
     			
     			return resu;
-    		}
+    }
     		
-    		function createNewTable(){
+    function createNewTable(){
     			var objSelec=$('#userTable').bootstrapTable('getSelections');
     			var tabName=$('#createntable').val();
     			if(objSelec == null){

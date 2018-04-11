@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ page isELIgnored="true" %>
+<%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -31,6 +32,7 @@ String username="";
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
@@ -993,7 +995,7 @@ String username="";
 				<!-- <h3>
 					h3. 这是一套可视化布局系统.
 				</h3> -->
-				<div style="z-index: 0;background-image: url(img/page/bannerbg.jpg);background-size:auto auto;background-repeat:repeat">
+				<div style="z-index: 0;background-image: url(img/page/bannerbg.jpg);background-size:auto auto;background-repeat:repeat;height=10%">
 					<a href="query.jsp"><img src="img/page/logo.png" style="padding-left:5px;background:none;"></a>
 					<div style="background:none;">
 				     <a href="default.jsp"><button class="headerbtn" style="border:none;width:100px;height:36px;color:white;">首页</button></a>
@@ -1003,7 +1005,7 @@ String username="";
 		   			 <a href="sysmanager.jsp"><button class="headerbtn" style="border:none;width:100px;height:36px;color:white;margin-left:-6px;">系统管理</button></a><!-- <a href="login.jsp"><button class="headerbtn" style="border:none;width:100px;height:36px;color:white;margin-left:-7px;">登录</button></a>   -->
 			         <!-- <button style="border:none;width:100px;onmouseover="this.style.background:url(img/navbg.jpg);" onmouseout="this.style.background=url(img/navbgover.jpg);"color:white;">首页</button>  -->   
 				     </div>
-					 <div style="z-index:999;float:right; display:inline;position:absolute;top:80px;right:10px;"><!--display:inline-block;  -->
+					 <div style="z-index:999;float:right; display:inline;"><!--display:inline-block;  -->
 						<table>
 							<tr>
 							<td><a href="login.jsp"><button id="login-id" style="background:transparent;border:none;font-size:16px;display:none" ><font color="#FFFFFF">登录  </font></button></a></td>
@@ -1017,10 +1019,8 @@ String username="";
 					</div>
 				</div>
 								
-
-				
-				<div class="row-fluid clearfix" style="height:83%;padding:-5px">
-					<div class="col-md-8 column"  style="padding:10px">
+				<div class="row-fluid clearfix" style="height:85%;padding:-5px">
+					<div class="col-md-8 column"  style="padding:10px;height:100%;">
 						<!-- <button type="button" style="background:transparent;border:none;"><img alt="" src="img/icon/note03.png" >选要素</button> -->
 						
 						<div class="btn-group" style="position:absolute;right:20px;top:20px;z-index:1000" >
@@ -1051,7 +1051,7 @@ String username="";
 							<button id="btnDetail" class="btn btn-default" style="height:30px" title="详情"><img alt="" src="img/icon/n05.png"></button>
 						</div>
 						
-						<div id="mapDiv" style="height:100%; background-color: #AAC5EE; padding: 3px;">
+						<div id="mapDiv" style="height:100%;; background-color: #AAC5EE; padding: 3px;">
 						</div>
 					</div>
 					<div class="col-md-4 column">
@@ -1180,7 +1180,7 @@ String username="";
 											</div>
 										</div>
 									</div>
-									<form id="qureyform">
+									<form id="qureyform" style="height:70%">
 										<input type="hidden" id="wktPoly" name="wktPoly" >
 										<input type="hidden" id="txtDataids" name="txtDataids" >
 										<table style="width:100%;height:350px">
@@ -1371,16 +1371,19 @@ String username="";
 										</table>
 										
 									</form>
-									<table style="width:80%;position:absolute;bottom:30px;">
-										<tr>
-										<td width="50%" style="text-align:right; padding-right:0px;">
-											<button id="resetQuy" class="btn btn-primary btn-sm" style="width:80px">重 置</button>
-										</td>
-										<td width="50%" style="text-align:right; padding-right:0px;">
-											<button id="testsub" class="btn btn-primary btn-sm" style="width:80px">数据查询</button>
-										</td>
-										</tr>
-									</table>
+									<div style="height:5%" >
+										<table style="width:80%;">
+											<tr>
+											<td width="50%" style="text-align:center; padding-right:0px;">
+												<button id="resetQuy" class="btn btn-primary btn-sm" style="width:80px">重 置</button>
+											</td>
+											<td width="50%" style="text-align:center; padding-right:0px;">
+												<button id="testsub" class="btn btn-primary btn-sm" style="width:80px">数据查询</button>
+											</td>
+											</tr>
+										</table>
+									</div>
+									
 								</div>
 								<div class="tab-pane" id="panel-quyresult">
 									<button id="showoverviewId" type="button" class="btn btn-default" title="显示快视图" href="javascript:void(0)">
@@ -1403,7 +1406,7 @@ String username="";
 						</div>						
 					</div>
 				</div>				
-				<div style="position:fixed;bottom:0px;margin-bottom:0px;background-color: #2153A3; height: 30px;width:100%;color:white;text-align:center;">
+				<div style="position:fixed;bottom:0px;margin-bottom:0px;background-color: #2153A3; height: 5%;width:100%;color:white;text-align:center;">
 					<label>国家测绘地理信息局卫星测绘应用中心 版权所有</label>
 				</div>				
 			</div>			
