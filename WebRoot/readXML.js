@@ -1,7 +1,7 @@
 /**
  * 
  */
-var xmlDoc function loadXML(fileRoute)
+function loadXML(fileRoute)
 {
     //var fileRoute="books.xml";
     if (window.ActiveXObject)
@@ -21,7 +21,7 @@ var xmlDoc function loadXML(fileRoute)
     }
     else
     {
-    alert( 'Î´×öÓë¸Ãä¯ÀÀÆ÷µÄ¼æÈÝ£¡');
+    alert( 'Î´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½Ý£ï¿½');
     return;
     }
 }
@@ -29,7 +29,7 @@ var xmlDoc function loadXML(fileRoute)
 function getmessage()
 {
     var msg='<table border="1" cellspacing="0" cellpadding="0" width="500">';
-    msg+='<tr><td width="90"></td><td width="100">Í¼Êé±àºÅ</td><td width="100">ÖÖÀà±àºÅ</td><td width="110">Í¼ÊéÃû³Æ</td><td width="100">×÷Õß</td></tr>';
+    msg+='<tr><td width="90"></td><td width="100">Í¼ï¿½ï¿½ï¿½ï¿½</td><td width="100">ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</td><td width="110">Í¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½</td><td width="100">ï¿½ï¿½ï¿½ï¿½</td></tr>';
     if(browse=="ff")
     {
         var cNodes = xmlDoc.getElementsByTagName("book");

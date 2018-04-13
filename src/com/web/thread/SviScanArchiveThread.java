@@ -195,7 +195,6 @@ public class SviScanArchiveThread extends BaseThread implements Runnable {
 					// tif重采样
 					if (tiffpath.substring(tiffpath.lastIndexOf("."))
 							.equalsIgnoreCase(".tif")) {
-
 						// tif图像原路径
 						String tifpath = myPath.getPath() + fF.separator
 								+ fF.getName();
@@ -213,8 +212,10 @@ public class SviScanArchiveThread extends BaseThread implements Runnable {
 								+ filename + ".png");
 						ImageProduce imgprodu = new ImageProduce();
 						boolean res = false;
-						String destpath = OverviewStoragePath + StoragePath;
-
+						
+						String RelativePath=DataModel.generateoverviewpath("分景DOM", filename);
+						
+						String destpath = OverviewStoragePath + RelativePath;
 						// String destpath1 = OverviewStoragePath + StoragePath;
 						File dest = new File(destpath);
 						if (!dest.exists()) {

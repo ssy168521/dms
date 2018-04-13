@@ -261,8 +261,8 @@ public class Meta2Database {
 		conn = ConnPoolUtil.getConnection();
 		try {
 			stmt = conn.createStatement();
-/*        //判断dataid是否已存在，已有则另加一
-
+      //判断dataid是否已存在，已有则另加一
+/*
 	        if(satellite.contains("GF")){
 	        	long dataid1 = System.currentTimeMillis();
 	        	//int dataid1 = Integer.parseInt(ss[5].substring(6,13));

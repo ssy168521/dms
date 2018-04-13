@@ -20,6 +20,7 @@ import zy3dms.GDALimage;
 import zy3dms.GDALimage2;
 import zy3dms.ImageExt;
 
+import com.sasmac.common.DataModel;
 import com.sun.prism.Image;
 import com.web.common.Constants;
 import com.web.util.DbUtils;
@@ -124,10 +125,12 @@ public class Loadoverview extends HttpServlet {
 		List<String> arrlistFiles = new ArrayList<String>();
 		List<String> extarr = new ArrayList<String>();
 		List<String> dataidarr = new ArrayList<String>();
+		String overviewpath="";
 		for (int i = 0; i < jsonArr.size(); i++) {
+			 overviewpath="";
 			JSONObject jsonObj = jsonArr.getJSONObject(i);
 			if(jsonObj.get("productLevel")!= null){//判断是否是表tif2db1的数据,tif2db1没有该字段
-				satellite = jsonObj.get("satellite").toString();//从json数据中获取键为satellite的值 
+/*				satellite = jsonObj.get("satellite").toString();//从json数据中获取键为satellite的值 
 				ProductLevel = jsonObj.get("productLevel").toString();
 				photoDate = jsonObj.get("acquisitionTime").toString();
 				filename=jsonObj.get("FileName").toString();
@@ -139,26 +142,30 @@ public class Loadoverview extends HttpServlet {
 						+ ProductLevel + File.separator + photoDate
 						+ File.separator + orbit + File.separator + Sensor
 						+ File.separator + filename
-						+ ".png";					
+						+ ".png";			*/		
 	            //图像范围和空间参考（'wkid':4326）
-				String strExt = GDALimage.GetImageExtent(stroverviewfilepath
-						+ storagePath);
+				String RelativePath=DataModel.generateoverviewpath("SC", filename);
+				overviewpath=stroverviewfilepath+ File.separator +
+				RelativePath+ File.separator + filename+ ".png";
+				String strExt = GDALimage.GetImageExtent(overviewpath);
 				extarr.add(strExt);					
 			}else{
 				filename=jsonObj.get("FileName").toString();
-				satellite = jsonObj.get("FileName").toString().substring(0,3);
+			//	satellite = jsonObj.get("FileName").toString().substring(0,3);
 				//storagePath为快视图路径
-				storagePath = File.separator + satellite
+			/*	storagePath = File.separator + satellite
 						+ File.separator + filename
-						+ ".png";	
+						+ ".png";	*/
+				String RelativePath=DataModel.generateoverviewpath("分景DOM", filename);
 	            //图像范围和空间参考（'wkid':4326）
-				String strExt = GDALimage2.GetImageExtent(stroverviewfilepath
-						+ storagePath);
+				 overviewpath=stroverviewfilepath
+						+ RelativePath+File.separator + filename+ ".png";
+				String strExt = GDALimage2.GetImageExtent(overviewpath);
 				extarr.add(strExt);	
 			}	
 			dataidarr.add(jsonObj.get("dataid").toString());
 			//快视图路径
-			String strnewpath = ( storagePath).replaceAll("\\\\", "/");
+			String strnewpath = ( overviewpath).replaceAll("\\\\", "/");
 			arrlistFiles.add(strnewpath);		
 		}
 		JSONArray jsonArray1 = JSONArray.fromObject(arrlistFiles);//路径
@@ -171,7 +178,7 @@ public class Loadoverview extends HttpServlet {
 
 		PrintWriter out = response.getWriter();
 		out.print(strobj);
-
+        
 		out.flush();
 		out.close();
 	}

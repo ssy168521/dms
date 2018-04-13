@@ -108,7 +108,8 @@ public class BuildSQL {
 		return strSQL;
 	}
 
-	public static String querySQLbySC(HttpServletRequest request,boolean bisDOM) {
+	
+	public static String querySQLbySC(HttpServletRequest request,boolean bisSenceDOM) {
 		String[] zy301sensor = request.getParameterValues("zy301sensor");
 		String[] zy302sensor = request.getParameterValues("zy302sensor");
 		String[] gf1sensor = request.getParameterValues("gf1sensor");
@@ -138,7 +139,7 @@ public class BuildSQL {
 
 		String strSQL = "";
 
-		if(!bisDOM)
+		if(!bisSenceDOM)
 		{
 			if (cloud1 != "" && cloud1 != null) {
 				strSQL += "cloudPercent>=" + cloud1;
@@ -150,7 +151,6 @@ public class BuildSQL {
 			}
 		}
 		
-	
 		if (orbitid != "" && orbitid != null) {
 			strSQL += "orbitID=" + orbitid;
 			strSQL += " and ";

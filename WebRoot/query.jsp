@@ -377,6 +377,10 @@ String username="";
 							{
 							   setQuerylistbyFrameDOM(obj,layid);
 							}
+							else if($("#ProductType").val()=="分景DOM")
+							{
+							   setQuerylistbySceneDOM(obj,layid);
+							}
 							else
 							{
 							   setQuylist(obj,layid);
@@ -401,6 +405,89 @@ String username="";
 					}
 				});
 			});
+			
+			function setQuerylistbySceneDOM(data,layid)
+			{			
+				var features=data.features;
+				var obj=new Array();
+				for(i in features){
+					obj.push(features[i].properties);
+				}
+				if($('#resulist').bootstrapTable!=null)
+					$('#resulist').bootstrapTable('destroy');		
+				$('#resulist').bootstrapTable('removeAll');
+				$('#resulist').bootstrapTable({
+					method: 'get',
+					cache: false,
+					height: '600',
+					toolbar: '#toolbar',
+					striped: true,
+					sidePagination:"client",
+					showPaginationSwitch:true,
+					pagination: true,
+					pageSize: 20,
+					pageList: [20, 50, 100, 500, 1000],
+					maintainSelected:true,
+					//search: true,
+					showColumns: true,
+					showRefresh: true,
+					//showToggle: true,
+					showExport: true,
+					//group-by:true,
+					//group-by-field:["orbitID","sceneRow"],
+					//clickToSelect: true,
+					columns: [{field:"select",title:"全选",checkbox:true,width:50,align:"center",valign:"middle",sortable:"true"},
+					          {field:"action",title:"操作",align:"center",valign:"middle",formatter:actionformatter,events: {
+							      'click .showoverviewclass': function (e, value, row, index) {
+							       showove(e, value,row,index);
+							      },
+							      'click .matchsearchclass': function (e, value, row, index) {
+							        imageMatch(e, value,row,index);
+							      }
+						      } },
+						{field:"dataid",title:"Id",align:"center",valign:"middle",sortable:"true"},
+						{field:"satellite",title:"卫星",align:"center",valign:"middle",sortable:"true"},
+						{field:"FileName",title:"文件名",align:"center",valign:"middle",sortable:"true"},					
+						{field:"FilePath",title:"文件路径",align:"center",valign:"middle",sortable:"true"},					
+					],
+					data:obj,
+					rowStyle: function (row, index) {
+			                //这里有5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
+			                var strclass = "";
+			                /* if (row.ORDER_STATUS == "待排产") {
+			                    strclass = 'success';//还有一个active
+			                }
+			                else if (row.ORDER_STATUS == "已删除") {
+			                    strclass = 'danger';
+			                }
+			                else {
+			                    return {};
+			                } */
+			                return { classes: strclass }
+			            },
+		            formatNoMatches: function(){
+		            	return '无符合条件的记录';
+		            },		            
+		            onDblClickRow:function (row){
+		            	//行点击事件
+		            	lightClick(layid,row.dataid);
+		            },
+		            onCheck:function(row){
+		            	graphSelect(row.dataid);
+		            },
+		            onUncheck:function(row){
+		            	graphUnselect(row.dataid);
+		            }  
+				});
+								
+				$("#resuCount").text(obj.length);
+				$("#resuinfo").css({display:"block"});
+				$("#toolbar").css({display:"block"});	
+				$(window).resize(function () {
+					$('#resulist').bootstrapTable('resetView');
+				});	
+			}	
+			
 			function setQuerylistbyFrameDOM(data,layid)
 			{			
 				var features=data.features;
