@@ -74,7 +74,7 @@ public class GDALimage2 {
 		// 'xmin':115.695,'ymin':34.342,'xmax':116.388,'ymax':34.952
     	//经纬度是地理坐标，故需投影。	
 		strExtent = "{'xmin':" + Xmin + ",'ymin':" + Ymin + ",'xmax':" + Xmax
-				+ ",'ymax':" + Ymax + "}";
+				+ ",'ymax':" + Ymax + ",'spatialReference':{'wkid':4326}}";
 		//,'spatialReference':{'wkid':4326}
         hDataset.delete();
         //System.out.println(strExtent);
