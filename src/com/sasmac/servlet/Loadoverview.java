@@ -145,6 +145,7 @@ public class Loadoverview extends HttpServlet {
 						+ ".png";			*/		
 	            //图像范围和空间参考（'wkid':4326）
 				String RelativePath=DataModel.generateoverviewpath("SC", filename);
+				storagePath = File.separator + RelativePath+ File.separator + filename+ ".png";
 				overviewpath=stroverviewfilepath+ File.separator +
 				RelativePath+ File.separator + filename+ ".png";
 				String strExt = GDALimage.GetImageExtent(overviewpath);
@@ -157,6 +158,7 @@ public class Loadoverview extends HttpServlet {
 						+ File.separator + filename
 						+ ".png";	*/
 				String RelativePath=DataModel.generateoverviewpath("分景DOM", filename);
+				storagePath = File.separator + RelativePath+ File.separator + filename+ ".png";
 	            //图像范围和空间参考（'wkid':4326）
 				 overviewpath=stroverviewfilepath
 						+ RelativePath+File.separator + filename+ ".png";
@@ -165,7 +167,7 @@ public class Loadoverview extends HttpServlet {
 			}	
 			dataidarr.add(jsonObj.get("dataid").toString());
 			//快视图路径
-			String strnewpath = ( overviewpath).replaceAll("\\\\", "/");
+			String strnewpath = (storagePath).replaceAll("\\\\", "/");
 			arrlistFiles.add(strnewpath);		
 		}
 		JSONArray jsonArray1 = JSONArray.fromObject(arrlistFiles);//路径
